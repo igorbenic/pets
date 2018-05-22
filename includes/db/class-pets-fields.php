@@ -1,0 +1,108 @@
+<?php
+/**
+ * Fields Database Class Definition.
+ */
+
+Namespace Pets\DB;
+
+class Fields {
+
+    public static function install() {
+        global $wpdb;
+
+        $wpdb->hide_errors();
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        dbDelta( self::get_schema() );
+    }
+
+    private static function get_schema() {
+    
+        global $wpdb;
+
+        $collate = '';
+
+        if ( $wpdb->has_cap( 'collation' ) ) {
+            $collate = $wpdb->get_charset_collate();
+        }
+
+        $tables = "
+  CREATE TABLE {$wpdb->prefix}pets_fields (
+  id BIGINT UNSIGNED NOT NULL auto_increment,
+  title varchar(200) NOT NULL,
+  slug  varchar(200) NOT NULL,
+  type  varchar(200) NOT NULL,
+  meta TEXT,
+  PRIMARY KEY  (id)
+) $collate;";
+
+        return $tables;
+    }
+
+	/**
+	 * Get Table Name
+	 * @return string
+	 */
+    public function get_table_name() {
+    	global $wpdb;
+
+	    return $wpdb->prefix . 'pets_fields';
+    }
+
+	/**
+	 * Creating a Field.
+	 *
+	 * @param $title
+	 * @param $slug
+	 * @param $type
+	 */
+    public function create( $title, $slug, $type, $meta ) {
+		global $wpdb;
+
+		return $wpdb->insert(
+			$this->get_table_name(),
+			array(
+				'title' => $title,
+				'slug'  => $slug,
+				'type'  => $type,
+				'meta'  => maybe_serialize( $meta ),
+			),
+			array( '%s', '%s', '%s', '%s' )
+		);
+    }
+
+	/**
+	 * Creating a Field.
+	 *
+	 * @param $title
+	 * @param $slug
+	 * @param $type
+	 */
+	public function update( $id, $title, $slug, $type, $meta ) {
+		global $wpdb;
+
+		return $wpdb->update(
+			$this->get_table_name(),
+			array(
+				'title' => $title,
+				'slug'  => $slug,
+				'type'  => $type,
+				'meta'  => maybe_serialize( $meta ),
+			),
+			array( 'id' => $id ),
+			array( '%s', '%s', '%s', '%s' ),
+			array( '%d' )
+		);
+	}
+
+	/**
+	 * Returning a single Field.
+	 *
+	 * @param $id
+	 */
+	public function get( $id ) {
+		global $wpdb;
+		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $this->get_table_name() . " WHERE id=%d LIMIT 1", $id ), ARRAY_A );
+	}
+}

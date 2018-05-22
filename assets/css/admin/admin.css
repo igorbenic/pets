@@ -1,0 +1,37 @@
+.pets-form-add-field {
+  background: white;
+  margin-top: 20px;
+  padding: 1em;
+  -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+}
+.pets-form-add-field:after {
+  content: '';
+  clear: both;
+  display: table;
+}
+.pets-form-add-field .field {
+  display: block;
+  width: 49%;
+  float: left;
+}
+.pets-form-add-field .field:nth-child(2n) {
+  margin-left: 1%;
+}
+.pets-form-add-field .field.field-meta .pets-field-meta-input {
+  padding-right: 25px;
+  position: relative;
+}
+.pets-form-add-field .field.field-meta .pets-field-meta-input .pets-remove-meta-field {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.pets-form-add-field .field.field-meta .pets-field-meta-input:first-child .pets-remove-meta-field {
+  display: none;
+}
+.pets-form-add-field .pets-submit {
+  margin-top: 1em;
+  clear: both;
+}
