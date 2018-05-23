@@ -97,12 +97,31 @@ class Fields {
 	}
 
 	/**
+	 * Get All Fields
+	 */
+	public function get_all() {
+		global $wpdb;
+		$results = $wpdb->get_results( "SELECT * FROM " . $this->get_table_name(), ARRAY_A );
+
+		if ( $results ) {
+			foreach ( $results as $order => $result ) {
+				$results[ $order ] = array_map( 'maybe_unserialize', $result );
+			}
+		}
+
+		return $results;
+	}
+
+	/**
 	 * Returning a single Field.
 	 *
 	 * @param $id
 	 */
 	public function get( $id ) {
 		global $wpdb;
-		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $this->get_table_name() . " WHERE id=%d LIMIT 1", $id ), ARRAY_A );
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $this->get_table_name() . " WHERE id=%d LIMIT 1", $id ), ARRAY_A );
+		$row = array_map( 'maybe_unserialize', $row );
+
+		return $row;
 	}
 }

@@ -16,13 +16,18 @@ if ( isset( $_REQUEST['field'] ) && isset( $_REQUEST['action'] ) && 'edit' === $
 }
 
 $form_title = __( 'New Field', 'pets' );
+$button     = __( 'Add Field', 'pets' );
 $field      = array();
+$field_meta = '';
 
 if ( $update ) {
     $form_title = __( 'Edit Field', 'pets' );
     $field_db   = new \Pets\DB\Fields();
     $field      = $field_db->get( absint( $_REQUEST['field'] ) );
-
+    if ( $field['meta'] && is_array( $field['meta'] ) ) {
+        $field_meta = 'data-options="' . esc_attr( wp_json_encode( $field['meta'] ) ) . '"';
+    }
+    $button = __( 'Save Changes', 'pets' );
 }
 
 ?>
@@ -35,7 +40,9 @@ if ( $update ) {
             <?php
         }
     ?>
-    <h3><?php echo esc_html( $form_title ); ?></h3>
+    <h3>
+        <?php echo esc_html( $form_title ); ?>
+    </h3>
     <fieldset>
         <div class="field">
             <label for="pets_field_title"><?php esc_html_e( 'Title', 'pets' ); ?></label>
@@ -51,8 +58,8 @@ if ( $update ) {
             <select name="pets_field_type" id="pets_field_type">
                 <option value="0"><?php esc_html_e( 'Choose a Type', 'pets' ); ?></option>
                 <?php
-                    $field_type  = isset( $field['type'] ) ? esc_attr( $field['type'] ) : '';
-                    $types = Fields::get_field_types();
+                    $field_type = isset( $field['type'] ) ? esc_attr( $field['type'] ) : '';
+                    $types      = Fields::get_field_types();
                     if ( $types && is_array( $types ) ) {
                         foreach ( $types as $type => $data ) {
                             echo '<option ' . selected( $field_type, $type, false ) . ' value="' . esc_attr( $type ) . '">' . $data['text'] . '</option>';
@@ -61,9 +68,12 @@ if ( $update ) {
                 ?>
             </select>
         </div>
-        <div class="field field-meta"></div>
+        <div class="field field-meta" <?php echo $field_meta; ?>></div>
     </fieldset>
-	<button type="submit" class="button button-primary pets-submit" name="pets_new_field_submit"><?php esc_html_e( 'Add Field', 'pets' ); ?></button>
+	<button type="submit" class="button button-primary pets-submit" name="pets_new_field_submit"><?php echo esc_html( $button ); ?></button>
+	<?php if ( $update ) { ?>
+        <a class="button button-secondary pets-submit" href="<?php echo esc_attr( admin_url( 'edit.php?post_type=pets&page=pets-fields' ) ); ?>"><?php esc_html_e( 'New Field', 'pets' ); ?></a>
+	<?php } ?>
 </form>
 
 <?php

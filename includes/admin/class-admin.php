@@ -21,6 +21,14 @@ class Admin {
     public function load() {
         add_action( 'admin_menu', array( $this, 'menus' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+	    add_action( 'add_meta_boxes', array( $this, 'metaboxes' ) );
+    }
+
+	/**
+	 * Adding Metaboxes
+	 */
+    public function metaboxes() {
+	    add_meta_box( 'pets-fields', __( 'Fields', 'pets' ), array( '\Pets\Fields', 'metabox' ), 'pets' );
     }
 
     /**

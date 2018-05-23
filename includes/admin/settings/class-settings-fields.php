@@ -124,17 +124,29 @@ class Settings_Fields {
     public static function field_templates() {
         ?>
         <script type="text/template" id="tmpl-multi">
+            <# var option = ''; if( data.options ) { option = data.options[0]; } console.log(option);#>
             <div class="pets-field-meta-inputs">
                 <div class="pets-field-meta-input">
-                    <input type="text" class="widefat" name="pets_field_meta[]" value="" placeholder="<?php echo esc_attr( 'Enter an Option', 'pets' ) ?>">
+                    <input type="text" class="widefat" name="pets_field_meta[]" value="{{ option  }}" placeholder="<?php echo esc_attr( 'Enter an Option', 'pets' ) ?>">
                     <button type="button" class="button button-secondary button-small pets-remove-meta-field" data-type="multi">-</button>
                 </div>
+                <#
+                if ( data.options ) {
+                    for( var i = 1; i < data.options.length; i++ ) { #>
+                        <div class="pets-field-meta-input">
+                            <input type="text" class="widefat" name="pets_field_meta[]" value="{{ data.options[ i ] }}" placeholder="<?php echo esc_attr( 'Enter an Option', 'pets' ) ?>">
+                            <button type="button" class="button button-secondary button-small pets-remove-meta-field" data-type="multi">-</button>
+                        </div>
+                    <#
+                    }
+                }
+                #>
             </div>
             <button type="button" class="button button-secondary pets-add-meta-field" data-type="multi">+</button>
         </script>
         <script type="text/template" id="tmpl-multi-input">
             <div class="pets-field-meta-input">
-                <input type="text" class="widefat" name="pets_field_meta[]" value="" placeholder="<?php echo esc_attr( 'Enter an Option', 'pets' ) ?>">
+                <input type="text" class="widefat" name="pets_field_meta[]" value="{{ data.value || '' }}" placeholder="<?php echo esc_attr( 'Enter an Option', 'pets' ) ?>">
                 <button type="button" class="button button-secondary button-small pets-remove-meta-field" data-type="multi">-</button>
             </div>
         </script>

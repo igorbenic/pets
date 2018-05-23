@@ -26,27 +26,30 @@
                     typeInfo.template
                     && 'single' !== typeInfo.template
                     && self.templateExists( typeInfo.template ) ) {
-                    self.renderTemplate( typeInfo.template );
+                    data = {};
+                    var options = $('.field-meta').attr('data-options');
+                    if ( options ) {
+                        data.options = JSON.parse( options );
+                    }
+                    self.renderTemplate( typeInfo.template, data );
                 } else {
                     $('.pets-form-field').find('.field-meta').html( '' );
                 }
             }
         },
-        addMeta: function addMeta( e ) {
+        addMeta: function addMeta( e, data ) {
             var parent = $(this).parent(),
                 self   = e.data.self,
                 holder = parent.find('.pets-field-meta-inputs'),
                 type   = $(this).attr('data-type'),
-                field  = '';
-            if ( holder.children().length ) {
-                var $field = holder.children().eq(0);
-                    field  = $field[0].outerHTML;
-            } else {
+                field  = '',
+                data   = data || {};
+
                 if ( self.templateExists( type + '-input' ) ) {
                     var t = wp.template( type + '-input' );
-                    field = t();
+                    field = t( data );
                 }
-            }
+
             holder.append( field );
             $( document.body ).triggerHandler( 'pets_fields_meta_added', { type: type, html: field, holder: holder });
         },
@@ -63,11 +66,12 @@
             console.error( 'Template: ' + template + ' does not exist! Be sure to add a script template of id #tmpl-' + template );
             return false;
         },
-        renderTemplate: function renderTemplate( template ) {
+        renderTemplate: function renderTemplate( template, data ) {
             // @todo, add data-options inside or somehow and if this exists, provide them.
             // @todo or render them somewhere and thean for each data, render the -input template.
             var t = wp.template( template ),
-                html = t();
+                data = data || {},
+                html = t( data );
 
             $('.pets-form-field').find('.field-meta').html( html );
             $( document.body ).triggerHandler( 'pets_fields_template_rendered', { template: template });

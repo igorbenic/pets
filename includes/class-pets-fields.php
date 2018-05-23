@@ -17,6 +17,18 @@ if( ! defined( 'ABSPATH' ) ) {
 class Fields {
 
 	/**
+	 * Metabox
+	 * @param $post
+	 */
+	public static function metabox( $post ) {
+		$post_id    = $post->ID;
+		$fields_db  = new \Pets\DB\Fields();
+		$fields     = $fields_db->get_all();
+
+		var_dump( $fields );
+	}
+
+	/**
 	 * Get the field types.
 	 * @return array
 	 */
