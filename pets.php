@@ -31,19 +31,16 @@ function pet_fs() {
 			'type'                => 'plugin',
 			'public_key'          => 'pk_d54c88070fcd447603456014d42ba',
 			'is_premium'          => true,
-			// If your plugin is a serviceware, set this option to false.
-			'has_premium_version' => true,
 			'has_addons'          => false,
 			'has_paid_plans'      => true,
 			'menu'                => array(
 				'slug'           => 'edit.php?post_type=pets',
 				'contact'        => false,
+				'support'        => false,
 			),
-			// Set the SDK to work in a sandbox mode (for development & testing).
-			// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-			'secret_key'          => 'sk_<u^dU*VmgjM{K?6G3W;.I<(RN?v*r',
 		) );
 	}
+
 
 	return $pet_fs;
 }
