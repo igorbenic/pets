@@ -17,6 +17,7 @@ class CPT {
      * @return void 
      */
     public function init() {
+    	$logo = file_get_contents( PETS_PATH . '/assets/images/logo.svg');
         register_post_type( 'pets', array(
             'labels'            => array(
                 'name'               => __( 'Pets', 'pets' ),
@@ -37,11 +38,11 @@ class CPT {
             'hierarchical'      => false,
             'show_ui'           => true,
             'show_in_nav_menus' => true,
-            'supports'          => array( 'title', 'editor', 'thumbnail' ),
+            'supports'          => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
             'has_archive'       => true,
             'rewrite'           => true,
             'query_var'         => true,
-            'menu_icon'         => 'dashicons-twitter',
+            'menu_icon'         => 'data:image/svg+xml;base64,' . base64_encode($logo ),
             'show_in_rest'      => true,
             'rest_base'         => 'pets',
             'rest_controller_class' => 'WP_REST_Posts_Controller',

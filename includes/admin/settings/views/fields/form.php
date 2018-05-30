@@ -11,22 +11,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $update = false;
 
-if ( isset( $_REQUEST['field'] ) && isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
-    $update = true;
-}
-
 $form_title = __( 'New Field', 'pets' );
 $button     = __( 'Add Field', 'pets' );
 $field      = array();
 $field_meta = '';
 
+if ( isset( $_REQUEST['field'] ) && isset( $_REQUEST['action'] ) && 'edit' === $_REQUEST['action'] ) {
+	$field_db   = new \Pets\DB\Fields();
+	$field      = $field_db->get( absint( $_REQUEST['field'] ) );
+
+	if ( $field ) {
+	    $update = true;
+		if ( $field['meta'] && is_array( $field['meta'] ) && isset( $field['meta']['options'] ) ) {
+			$field_meta = 'data-options="' . esc_attr( wp_json_encode( $field['meta']['options'] ) ) . '"';
+		}
+    }
+}
+
 if ( $update ) {
     $form_title = __( 'Edit Field', 'pets' );
-    $field_db   = new \Pets\DB\Fields();
-    $field      = $field_db->get( absint( $_REQUEST['field'] ) );
-    if ( $field['meta'] && is_array( $field['meta'] ) ) {
-        $field_meta = 'data-options="' . esc_attr( wp_json_encode( $field['meta'] ) ) . '"';
-    }
     $button = __( 'Save Changes', 'pets' );
 }
 

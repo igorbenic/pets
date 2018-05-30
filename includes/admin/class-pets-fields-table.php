@@ -5,6 +5,8 @@
 
 namespace Pets\Admin;
 
+use Pets\Pets_Cache;
+
 if ( ! class_exists( '\WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -70,21 +72,18 @@ class Fields_Table extends \WP_List_Table {
 
     function column_meta( $item ) {
     	$meta   = maybe_unserialize( $item['meta'] );
-    	$output = array();
+    	$output = '-';
 
     	if ( $meta ) {
+    		$output = '';
     		if ( is_array( $meta ) ) {
-    			foreach ( $meta as $value ) {
-					$output[] = $value;
+    			if ( isset( $meta['options'] ) )  {
+    				$output .= __( 'Options:', 'pets' ) . ' ' . implode( ', ', $meta['options'] );
 			    }
 		    }
 	    }
 
-	    if ( $output ) {
-		    return implode( ', ', $output );
-	    }
-
-    	return '-';
+    	return $output;
     }
 
 	/**
@@ -163,6 +162,9 @@ class Fields_Table extends \WP_List_Table {
      */
     public static function delete_field( $id ) {
       global $wpdb;
+
+
+      Pets_Cache::delete_cache('fields');
 
       $wpdb->delete(
         "{$wpdb->prefix}pets_fields",

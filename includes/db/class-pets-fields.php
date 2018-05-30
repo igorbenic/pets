@@ -5,6 +5,8 @@
 
 Namespace Pets\DB;
 
+use Pets\Pets_Cache;
+
 class Fields {
 
     public static function install() {
@@ -60,6 +62,8 @@ class Fields {
     public function create( $title, $slug, $type, $meta ) {
 		global $wpdb;
 
+		Pets_Cache::delete_cache('fields');
+
 		return $wpdb->insert(
 			$this->get_table_name(),
 			array(
@@ -81,6 +85,8 @@ class Fields {
 	 */
 	public function update( $id, $title, $slug, $type, $meta ) {
 		global $wpdb;
+
+		Pets_Cache::delete_cache('fields');
 
 		return $wpdb->update(
 			$this->get_table_name(),
@@ -120,7 +126,10 @@ class Fields {
 	public function get( $id ) {
 		global $wpdb;
 		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $this->get_table_name() . " WHERE id=%d LIMIT 1", $id ), ARRAY_A );
-		$row = array_map( 'maybe_unserialize', $row );
+
+		if ( $row ) {
+			$row = array_map( 'maybe_unserialize', $row );
+		}
 
 		return $row;
 	}

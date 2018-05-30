@@ -17,6 +17,42 @@ if( ! defined( 'ABSPATH' ) ) {
     return;
 }
 
+// Create a helper function for easy SDK access.
+function pet_fs() {
+	global $pet_fs;
+
+	if ( ! isset( $pet_fs ) ) {
+		// Include Freemius SDK.
+		require_once dirname(__FILE__) . '/freemius/start.php';
+
+		$pet_fs = fs_dynamic_init( array(
+			'id'                  => '2120',
+			'slug'                => 'pets',
+			'type'                => 'plugin',
+			'public_key'          => 'pk_d54c88070fcd447603456014d42ba',
+			'is_premium'          => true,
+			// If your plugin is a serviceware, set this option to false.
+			'has_premium_version' => true,
+			'has_addons'          => false,
+			'has_paid_plans'      => true,
+			'menu'                => array(
+				'slug'           => 'edit.php?post_type=pets',
+				'contact'        => false,
+			),
+			// Set the SDK to work in a sandbox mode (for development & testing).
+			// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
+			'secret_key'          => 'sk_<u^dU*VmgjM{K?6G3W;.I<(RN?v*r',
+		) );
+	}
+
+	return $pet_fs;
+}
+
+// Init Freemius.
+pet_fs();
+// Signal that SDK was initiated.
+do_action( 'pet_fs_loaded' );
+
 final class Pets {
 
     /**
@@ -48,6 +84,13 @@ final class Pets {
     private function includes() {
         include_once 'includes/class-pets-cpt.php';
 	    include_once 'includes/class-pets-fields.php';
+	    include_once 'includes/class-pets-cache.php';
+	    include_once 'includes/class-pets-search.php';
+	    // Settings Class.
+	    include_once 'includes/admin/settings/class-settings.php';
+	    include_once 'includes/functions-settings.php';
+
+	    include_once 'includes/functions-templates.php';
 
         /**
          * Database Classes
@@ -56,8 +99,17 @@ final class Pets {
 
         if( is_admin() ) {
             include_once 'includes/admin/class-admin.php';
+        } else {
+        	include_once 'includes/class-pets-template.php';
         }
     }
+
+	/**
+	 * Include integrations
+	 */
+	public function include_integrations() {
+    	include_once 'includes/integrations/class-give.php';
+	}
 
     /**
      * Initialize classes, settings.
@@ -69,6 +121,9 @@ final class Pets {
         if( is_admin() ) {
             $admin = new Admin\Admin();
             $admin->load();
+        } else {
+        	$template = new Pets_Template();
+        	$template->init();
         }
     }
 
@@ -83,11 +138,31 @@ final class Pets {
          * Actions
          */
         add_action( 'init', array( $cpt, 'init' ) );
+	    add_action( 'init', array( $this, 'add_image_sizes' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
+        add_action( 'plugins_loaded', array( $this, 'include_integrations') );
+        add_action( 'pets_before_loop', array( '\Pets\Search', 'add_form' ) );
 
         /**
          * Filters
          */
         add_filter( 'post_updated_messages', array( $cpt, 'update_messages' ) );
+    }
+
+	/**
+	 * Enqueueing Scripts and Styles for Public.
+	 */
+    public function enqueue() {
+		wp_enqueue_style( 'pets-css', PETS_URL . '/assets/css/public/pets.css', '', '' );
+    }
+
+	/**
+	 * Define Image sizes.
+	 */
+    public function add_image_sizes() {
+		if ( ! \has_image_size( 'pets-thumbnail' ) ) {
+			\add_image_size( 'pets-thumbnail', 360 );
+		}
     }
 }
 

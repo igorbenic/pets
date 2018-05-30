@@ -22,13 +22,40 @@ class Admin {
         add_action( 'admin_menu', array( $this, 'menus' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 	    add_action( 'add_meta_boxes', array( $this, 'metaboxes' ) );
+	    add_action( 'save_post', array( $this, 'save_post' ), 20, 2 );
+    }
+
+	/**
+	 * Saving the values.
+	 *
+	 * @param $post_id
+	 * @param $post
+	 */
+    public function save_post( $post_id, $post ) {
+		if ( 'pets' !== get_post_type( $post ) ) {
+			return;
+		}
+
+		if ( wp_is_post_revision( $post ) ) {
+			return;
+		}
+
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
+		if ( wp_is_post_autosave( $post ) ) {
+			return;
+		}
+
+		\Pets\Fields::save_fields( $post_id );
     }
 
 	/**
 	 * Adding Metaboxes
 	 */
     public function metaboxes() {
-	    add_meta_box( 'pets-fields', __( 'Fields', 'pets' ), array( '\Pets\Fields', 'metabox' ), 'pets' );
+	    add_meta_box( 'pets-fields', __( 'Information', 'pets' ), array( '\Pets\Fields', 'metabox' ), 'pets' );
     }
 
     /**
@@ -60,7 +87,6 @@ class Admin {
      * @return void 
      */
     public function settings_page() {
-        include_once 'settings/class-settings.php';
         $settings = new Settings();
         $settings->load();
         $settings->page();

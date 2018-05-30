@@ -67,8 +67,6 @@
             return false;
         },
         renderTemplate: function renderTemplate( template, data ) {
-            // @todo, add data-options inside or somehow and if this exists, provide them.
-            // @todo or render them somewhere and thean for each data, render the -input template.
             var t = wp.template( template ),
                 data = data || {},
                 html = t( data );

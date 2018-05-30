@@ -1,0 +1,188 @@
+@yellow: #f1c40f;
+@green: #61ce70;
+
+.pets-fields {
+  &.pets-information {
+    padding: 0;
+    margin: 0 0 1em 0;
+    list-style-type: none;
+    text-align: right;
+
+    &:after {
+      display: table;
+      content: '';
+      clear: both;
+    }
+
+    .pets-field-title {
+      float: left;
+    }
+    
+    li {
+      clear: both;
+      padding: 0.25em 0;
+      margin: 0.25em 0;
+      &:not(:last-child) {
+        border-bottom: 1px dashed rgba( 0, 0, 0, 0.5 );
+      }
+    }
+  }
+}
+
+.wrap-pets {
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 2em;
+}
+
+.pets-grid {
+  &:after {
+    content: '';
+    clear: both;
+    display: table;
+  }
+}
+
+.pet-alert {
+  padding: 10px 10px 10px 40px;
+  background-color: @yellow;
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  color: rgba(0, 0, 0, 0.75);
+  font-weight: 600;
+
+  .pet-logo {
+    width: 25px;
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    path {
+      fill: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.post-type-archive-pets {
+  .type-pets {
+    width: 100%;
+    float: left;
+    margin-bottom: 1em;
+    background: #fff;
+    -webkit-box-shadow:  0px 0px 2px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow:  0px 0px 2px rgba(0, 0, 0, 0.15);
+    box-shadow:  0px 0px 2px rgba(0, 0, 0, 0.15);
+
+    @media screen and (min-width:481px) and (max-width: 768px) {
+      width: 45%;
+      &:not(:nth-child(2n+2)) {
+        margin-right: 10%;
+      }
+    }
+
+    @media screen and (min-width:769px) {
+      width: 30%;
+      &:not(:nth-child(3n+3)) {
+        margin-right: 5%;
+      }
+    }
+
+    .pet-content,
+    .pet-title {
+      padding: 0 0.5em;
+    }
+
+    .pet-image {
+      width: 100%;
+      overflow: hidden;
+      background: #efefef;
+      position: relative;
+      margin-bottom: 0.5em;
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      svg {
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        path {
+          fill: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+
+    &:not(.has-post-thumbnail) {
+      .pet-image{
+        height: 200px;
+      }
+    }
+  }
+}
+
+.pets-search-form {
+  margin-bottom: 1em;
+  padding: 1em;
+  background: @yellow;
+  border-radius: 5px;
+
+  &:after {
+    content: '';
+    clear: both;
+    display: table;
+  }
+
+  .fieldset {
+    border: none;
+    display: flex;
+    flex-flow: row wrap;
+
+    @media screen and (min-width: 481px ) {
+      flex-flow: row;
+    }
+
+    &:after {
+      content: '';
+      clear: both;
+      display: table;
+    }
+  }
+
+  .search-field {
+    margin: 0 0.5em 0.5em 0;
+    width: 100%;
+
+    select,
+    input:not([type=checkbox]):not([type=radio]) {
+      width: 100%;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+    label {
+      margin: 0;
+    }
+  }
+
+  .button {
+    height: 50px;
+    padding: 10px 1.5em;
+    line-height: 30px;
+    border-radius: 5px;
+    background-color: darken( @yellow, 20% );
+
+    &:hover {
+      background-color: darken( @yellow, 50% );
+    }
+  }
+}
