@@ -83,6 +83,8 @@ final class Pets {
 	    include_once 'includes/class-pets-fields.php';
 	    include_once 'includes/class-pets-cache.php';
 	    include_once 'includes/class-pets-search.php';
+	    include_once 'includes/class-pets-shortcodes.php';
+	    include_once 'includes/class-pets-pet.php';
 	    // Settings Class.
 	    include_once 'includes/admin/settings/class-settings.php';
 	    include_once 'includes/functions-settings.php';
@@ -121,6 +123,7 @@ final class Pets {
         } else {
         	$template = new Pets_Template();
         	$template->init();
+        	new Shortcodes();
         }
     }
 
@@ -139,8 +142,9 @@ final class Pets {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
         add_action( 'plugins_loaded', array( $this, 'include_integrations') );
         add_action( 'pets_before_loop', array( '\Pets\Search', 'add_form' ) );
+	    add_action( 'pre_get_posts', array( '\Pets\Search', 'pets_per_page' ) );
 
-        /**
+	    /**
          * Filters
          */
         add_filter( 'post_updated_messages', array( $cpt, 'update_messages' ) );

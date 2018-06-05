@@ -24,6 +24,18 @@ class Settings {
         include 'class-settings-fields.php';
         add_action( 'pets_admin_page_pets-settings', array( $this, 'settings_page' ) );
         add_action( 'pets_settings_form_fields', array( $this, 'render_fields' ) );
+        add_action( 'pets_settings_updated', array( $this, 'settings_updated' ) );
+    }
+
+	/**
+	 * Pets settings updated.
+	 */
+    public function settings_updated() {
+        ?>
+        <div class="notice updated">
+            <p><?php _e( 'Settings Updated', 'pets' ); ?></p>
+        </div>
+        <?php
     }
 
 	/**
@@ -224,6 +236,11 @@ class Settings {
     public function settings_fields() {
 		return apply_filters( 'pets_settings_fields', array(
 			'general' => array(
+                'pets_per_page' => array(
+                    'title' => __( 'Pets per Page', 'pets' ),
+                    'type'  => 'text',
+                    'default' => '6',
+                ),
 				'info_position' => array(
 					'title' => __( 'Information Position', 'pets' ),
 					'type'  => 'radio',
@@ -264,6 +281,6 @@ class Settings {
 			return $option[ $id ];
 	    }
 
-	    return $default;
+	    return apply_filters( 'pets_get_setting_' . $tab . '_' . $id, $default );
     }
 }
