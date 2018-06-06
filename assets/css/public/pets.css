@@ -157,6 +157,8 @@
   line-height: 30px;
   border-radius: 5px;
   background-color: #927608;
+  border: none;
+  box-shadow: none;
 }
 .pets-search-form .button:hover {
   background-color: #010100;

@@ -103,11 +103,22 @@ class Pet {
 	 * @return string
 	 */
 	public function get_short_description() {
+		$text = '';
+
 		if ( $this->is_loaded() ) {
-			return get_the_excerpt( $this->post );
+			$text = $this->post->post_content;
 		}
 
-		return get_the_excerpt( $this->get_id() );
+		if ( ! $text ) {
+			$this->post = get_post( $this->get_id() );
+			$text       = $this->post->post_content;
+		}
+
+		if ( ! $text ) {
+			return '';
+		}
+
+		return wp_trim_excerpt( $text );
 	}
 
 	/**

@@ -3,7 +3,7 @@ Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
 Tested up to: 4.9.6
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -69,6 +69,16 @@ You're welcome to give your own ideas and features in the support forum.
 Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
+
+= 0.2.1 =
+- Fixed styles
+- Fixed Single Pet short description
+
+= 0.2.0 =
+- Added a Widget for Single Pet
+- Added a Shortcode for Single Pet
+- Added a Grid Layout on Archive page
+- Added a Search form on Archive page
 
 = 0.1.0 =
 Basic features added.

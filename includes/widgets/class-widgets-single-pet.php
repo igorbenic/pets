@@ -33,22 +33,30 @@ class Single_Pet extends \WP_Widget {
 	 * @param array $instance Saved values from database.
 	 */
 	public function widget( $args, $instance ) {
+		$pet = ! empty( $instance['pet'] ) ? absint( $instance['pet'] ) : 0;
+		if ( 0 === $pet ) {
+			$wp_args = array(
+				'post_type'      => 'pets',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+				'orderby'       => 'rand',
+				'suppress_filters' => false,
+			);
+			$query = new \WP_Query( $wp_args );
+			if ( $query->have_posts() ) {
+				$pet   = $query->posts[0];
+			}
+		}
+
+		if ( ! $pet ) {
+		    return;
+        }
+
 		echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
-		$pet = ! empty( $instance['pet'] ) ? absint( $instance['pet'] ) : 0;
-		if ( 0 === $pet ) {
-			$wp_args = array(
-				'post_type'   => 'pets',
-				'post_status' => 'publish',
-				'posts_per_page' => 1,
-                'order_by' => 'rand',
-                'fields' => 'ids',
-			);
-			$query = new \WP_Query( $wp_args );
-			$pet   = $query->posts[0];
-        }
+
         $the_pet = new Pet( $pet, true );
 
 		$excerpt   = $the_pet->get_short_description();
