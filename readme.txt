@@ -3,7 +3,7 @@ Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
 Tested up to: 4.9.6
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -20,13 +20,25 @@ This plugin comes with 2 custom taxonomies: Breed and Colors.
 
 If you want to accept donation, this plugin integrates with Give, a plugin for donations. People can choose to donate to all your pets or only to one.
 
-Coming in 0.2.0:
+Current Features:
 
-- Widgets,
-- Shortcodes,
+- Managing Pets
+- Two Taxonomies (Breed and Color)
+- Custom Fields
+- Archive Search Form
+- Archive Grid Layout
+- Widgets
+- Shortcodes
+
+Shortcodes:
+
+[pets_single id=0 image=true info=true] (Set image or info to false)
+
+
+Coming in 0.3.0:
+
 - Sponsors
 - Field Sections (move various pet information to sections)
-- Archive Search Form
 
 Roadmap (planned features):
 

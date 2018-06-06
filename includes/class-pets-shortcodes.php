@@ -42,7 +42,9 @@ class Shortcodes {
 	public function single_pet( $args ) {
 		$atts = shortcode_atts(
 			array(
-				'id' => 0,
+				'id'    => 0,
+				'info'  => true,
+				'image' => true,
 			),
 			$args,
 			'pets_single'
@@ -65,7 +67,18 @@ class Shortcodes {
 		if ( $query->have_posts() ) {
 			while( $query->have_posts() ) {
 				$query->the_post();
-				pets_get_template_part( 'archive/single' );
+				$pet = new Pet( get_the_ID(), true );
+				if ( 'false' !== strtolower( $atts['image'] ) ) {
+					$image = $pet->get_image();
+					if ( $image ) {
+						echo $image;
+					}
+				}
+				echo '<h3><a href="' . $pet->get_link() . '">' . $pet->get_title() . '</a></h3>';
+				echo $pet->get_short_description();
+				if ( 'false' !== strtolower( $atts['info'] ) ) {
+					echo $pet->get_formatted_information();
+				}
 			}
 			wp_reset_postdata();
 		}

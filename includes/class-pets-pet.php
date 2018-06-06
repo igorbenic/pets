@@ -42,6 +42,14 @@ class Pet {
 	}
 
 	/**
+	 * Is the Post Loaded?
+	 * @return bool
+	 */
+	private function is_loaded() {
+		return null !== $this->post;
+	}
+
+	/**
 	 * Set the ID.
 	 * @param $id
 	 */
@@ -63,6 +71,54 @@ class Pet {
 	 */
 	public function get_id() {
 		return $this->id;
+	}
+
+	/**
+	 * Return the title of the Pet.
+	 */
+	public function get_title() {
+		if ( $this->is_loaded() ) {
+			return $this->post->post_title;
+		}
+
+		return get_the_title( $this->get_id() );
+	}
+
+	/**
+	 * Get the Pet Link.
+	 *
+	 * @return string
+	 */
+	public function get_link() {
+		if ( $this->is_loaded() ) {
+			return get_permalink( $this->post );
+		}
+
+		return get_permalink( $this->get_id() );
+	}
+
+	/**
+	 * Return a short description of the pet.
+	 *
+	 * @return string
+	 */
+	public function get_short_description() {
+		if ( $this->is_loaded() ) {
+			return get_the_excerpt( $this->post );
+		}
+
+		return get_the_excerpt( $this->get_id() );
+	}
+
+	/**
+	 * Get the Pet Image.
+	 *
+	 * @param  string $size Size of the image.
+	 *
+	 * @return string
+	 */
+	public function get_image( $size = 'post-thumbnail' ) {
+		return get_the_post_thumbnail( $this->get_id(), $size );
 	}
 
 	/**

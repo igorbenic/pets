@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         0.2.0
  *
  * @package         Pets
  */
@@ -56,7 +56,7 @@ final class Pets {
      * Version
      * @var string
      */
-    public $version = '0.1.0';
+    public $version = '0.2.0';
 
     /**
      * Run everything
@@ -85,9 +85,12 @@ final class Pets {
 	    include_once 'includes/class-pets-search.php';
 	    include_once 'includes/class-pets-shortcodes.php';
 	    include_once 'includes/class-pets-pet.php';
+	    include_once 'includes/class-pets-widgets.php';
 	    // Settings Class.
 	    include_once 'includes/admin/settings/class-settings.php';
 	    include_once 'includes/functions-settings.php';
+
+	    include_once 'includes/widgets/class-widgets-single-pet.php';
 
 	    include_once 'includes/functions-templates.php';
 
@@ -132,7 +135,8 @@ final class Pets {
      * @return void 
      */
     private function hooks() {
-        $cpt = new CPT();
+        $cpt     = new CPT();
+        $widgets = new Widgets();
 
         /**
          * Actions
@@ -143,6 +147,7 @@ final class Pets {
         add_action( 'plugins_loaded', array( $this, 'include_integrations') );
         add_action( 'pets_before_loop', array( '\Pets\Search', 'add_form' ) );
 	    add_action( 'pre_get_posts', array( '\Pets\Search', 'pets_per_page' ) );
+	    add_action( 'widgets_init', array( $widgets, 'register_widgets' ) );
 
 	    /**
          * Filters
