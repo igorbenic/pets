@@ -7,6 +7,7 @@
 namespace Pets\Admin;
 
 use Pets\DB\Fields;
+use Pets\DB\Fields_Sections;
 
 class Settings_Fields {
 
@@ -20,6 +21,7 @@ class Settings_Fields {
     public function __construct() {
         add_action( 'pets_admin_page_pets-fields', array( $this, 'settings_page' ) );
 		$this->create_field_on_post();
+		$this->create_field_section_on_post();
     }
 
 	/**
@@ -62,8 +64,8 @@ class Settings_Fields {
 	 * Fields Sections Page
 	 */
 	public function page_sections() {
-		include PETS_PATH . 'includes/admin/class-pets-fields-table.php';
-		$table = new Fields_Table();
+		include PETS_PATH . 'includes/admin/class-pets-fields-sections-table.php';
+		$table = new Fields_Sections_Table();
 		$table->prepare_items();
 		?>
         <form method="post">
@@ -72,7 +74,7 @@ class Settings_Fields {
 			?>
         </form>
 		<?php
-		$this->form();
+		$this->form_sections();
 	}
 
 	/**
@@ -107,6 +109,20 @@ class Settings_Fields {
     }
 
 	/**
+	 * Fields Form Sections
+	 */
+	public function form_sections() {
+		if ( $this->errors ) {
+			foreach( $this->errors as $error ) {
+				?>
+                <div class="notice error"><p><?php echo $error; ?></p></div>
+				<?php
+			}
+		}
+		$this->get_view( 'form-sections.php' );
+	}
+
+	/**
 	 * Create Field from Form
 	 */
     public function create_field_on_post() {
@@ -137,14 +153,16 @@ class Settings_Fields {
 				return;
 			}
 
-			$meta = isset( $_POST['pets_field_meta'] ) ? $_POST['pets_field_meta'] : array();
-			$id   = isset( $_POST['pets_field_id'] ) ? absint( $_POST['pets_field_id'] ) : false;
+			$meta    = isset( $_POST['pets_field_meta'] ) ? $_POST['pets_field_meta'] : array();
+			$id      = isset( $_POST['pets_field_id'] ) ? absint( $_POST['pets_field_id'] ) : false;
+			$section = isset( $_POST['pets_field_sections'] ) ? absint( $_POST['pets_field_sections'] ) : 0;
 
 			$data = array(
-                'title' => $title,
-                'slug'  => $slug,
-                'type'  => $type,
-                'meta'  => $meta,
+                'title'         => $title,
+                'slug'          => $slug,
+                'type'          => $type,
+                'meta'          => $meta,
+                'field_section' => $section,
             );
 			$pets_fields_db = new Fields();
 			if ( ! $id ) {
@@ -164,6 +182,61 @@ class Settings_Fields {
 			echo '<div class="notice updated"><p>' . __( 'Field Created.', 'pets' ) . '</p></div>';
 		}
     }
+
+	/**
+	 * Create Field Section from Form
+	 */
+	public function create_field_section_on_post() {
+		if ( isset( $_POST['pets_new_field_section_submit'] ) ) {
+
+			if ( ! isset( $_POST['pets_nonce'] )
+			     || ! wp_verify_nonce( $_POST['pets_nonce'], 'pets_nonce_form')
+			) {
+				wp_die( __( 'Trying to cheat?', 'pets' ) );
+				return;
+			}
+
+			$title = isset( $_POST['pets_field_title'] ) && $_POST['pets_field_title'] ? sanitize_text_field( $_POST['pets_field_title'] ) : false;
+			if ( ! $title ) {
+				$this->errors[] = __( 'Section Title Empty.', 'pets' );
+				return;
+			}
+
+			$slug = isset( $_POST['pets_field_slug'] ) && $_POST['pets_field_slug'] ? sanitize_text_field( $_POST['pets_field_slug'] ) : false;
+			if ( ! $slug ) {
+				$slug = sanitize_title( $title );
+			}
+			$slug = str_replace( '-', '_', $slug );
+
+			$icon = isset( $_POST['pets_field_icon'] ) ? $_POST['pets_field_icon'] : '';
+			if ( ! $icon ) {
+			    $icon = isset( $_POST['pets_field_icon_string'] ) ? $_POST['pets_field_icon_string'] : '';
+            }
+			$id   = isset( $_POST['pets_field_id'] ) ? absint( $_POST['pets_field_id'] ) : false;
+
+			$data = array(
+				'title' => $title,
+				'slug'  => $slug,
+				'icon'  => $icon,
+			);
+			$pets_fields_db = new Fields_Sections();
+			if ( ! $id ) {
+				$ret = $pets_fields_db->create( $data );
+			} else {
+				$ret = $pets_fields_db->update( $id, $data );
+			}
+			if ( false === $ret ) {
+				$this->errors[] = __( 'Something went wrong. We could not create the field.', 'pets' );
+				return;
+			}
+			if ( is_wp_error( $ret ) ) {
+				$this->errors[] = $ret->get_error_message();
+				return;
+			}
+
+			echo '<div class="notice updated"><p>' . __( 'Field Section Created.', 'pets' ) . '</p></div>';
+		}
+	}
 
 	/**
 	 * Get the Field Templates

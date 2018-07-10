@@ -99,6 +99,7 @@ class Admin {
 		wp_enqueue_style( 'pets-admin', PETS_URL . '/assets/css/admin/admin.css' );
 
 		if ( 'pets_page_pets-fields' === $hook ) {
+			wp_enqueue_media();
 			wp_enqueue_script( 'pets-fields', PETS_URL . '/assets/js/admin/fields.js', array( 'jquery', 'wp-util' ), '', true );
 			wp_localize_script( 'pets-fields', 'pets_fields', array(
 				'types' => Fields::get_field_types()

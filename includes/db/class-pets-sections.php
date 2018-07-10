@@ -50,9 +50,8 @@ class Fields_Sections extends DB {
 	public function create( $data, $format = array() ) {
 
 		if ( ! $format ) {
-			$format = array( '%s', '%s', '%s', '%s' );
+			$format = array( '%s', '%s', '%s' );
 		}
-		$data['meta'] = isset( $data['meta'] ) ? maybe_serialize( $data['meta'] ) : '';
 		return parent::create( $data, $format );
 	}
 
@@ -67,7 +66,7 @@ class Fields_Sections extends DB {
 		global $wpdb;
 
 		if ( ! $format ) {
-			$format = array( '%s', '%s', '%s', '%s' );
+			$format = array( '%s', '%s', '%s' );
 		}
 		return parent::update( $id, $data, $format );
 	}

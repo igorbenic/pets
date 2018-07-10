@@ -5,6 +5,7 @@
 
 namespace Pets\Admin;
 
+use Pets\DB\Fields_Sections;
 use Pets\Pets_Cache;
 
 if ( ! class_exists( '\WP_List_Table' ) ) {
@@ -31,10 +32,11 @@ class Fields_Table extends \WP_List_Table {
      */
     function get_columns() {
     	$columns = array(
-	        'cb'    => '<input type="checkbox" />',
-	        'title' => __( 'Title', 'pets' ),
-	        'type'  => __( 'Type', 'pets' ),
-		    'meta'  => __( 'Meta', 'pets' ),
+	        'cb'      => '<input type="checkbox" />',
+	        'title'   => __( 'Title', 'pets' ),
+	        'type'    => __( 'Type', 'pets' ),
+		    'meta'    => __( 'Meta', 'pets' ),
+		    'field_section' => __( 'Section', 'pets' ),
 	    );
 
       return $columns;
@@ -84,6 +86,16 @@ class Fields_Table extends \WP_List_Table {
 	    }
 
     	return $output;
+    }
+
+    public function column_field_section( $item ) {
+    	if ( ! absint( $item['field_section'] ) ) {
+			return __( 'Information', 'pets' );
+	    } else {
+    		$db   = new Fields_Sections();
+    		$data = $db->get( absint( $item['field_section'] ) );
+    		return $data['title'];
+	    }
     }
 
 	/**
