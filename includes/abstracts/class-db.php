@@ -20,10 +20,9 @@ abstract class DB {
 	public static function install() {
 		global $wpdb;
 
-		//$wpdb->hide_errors();
+		$wpdb->hide_errors();
 
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		$schema = static::get_schema();
 		dbDelta( static::get_schema() );
 	}
 
