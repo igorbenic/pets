@@ -30,7 +30,7 @@ if ( isset( $_REQUEST['field'] ) && isset( $_REQUEST['action'] ) && 'edit' === $
 
 if ( $update ) {
     $form_title = __( 'Edit Field', 'pets' );
-    $button = __( 'Save Changes', 'pets' );
+    $button     = __( 'Save Changes', 'pets' );
 }
 
 ?>

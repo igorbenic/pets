@@ -1,47 +1,43 @@
 <?php
 /**
- * Fields Database Class Definition.
+ * Field Sections Database Class Definition.
  */
 
 Namespace Pets\DB;
 
-use Pets\Pets_Cache;
-
 /**
- * Class Fields
+ * Class Fields_Sections
  *
  * @package Pets\DB
  */
-class Fields extends DB {
+class Fields_Sections extends DB {
 
-	protected $table_slug = 'pets_fields';
+	protected $table_slug = 'pets_fields_sections';
 	/**
 	 * Field Table Schema
 	 * @return string
 	 */
-    protected static function get_schema() {
-    
-        global $wpdb;
+	protected static function get_schema() {
 
-        $collate = '';
+		global $wpdb;
 
-        if ( $wpdb->has_cap( 'collation' ) ) {
-            $collate = $wpdb->get_charset_collate();
-        }
+		$collate = '';
 
-        $tables = "
-  CREATE TABLE {$wpdb->prefix}pets_fields (
+		if ( $wpdb->has_cap( 'collation' ) ) {
+			$collate = $wpdb->get_charset_collate();
+		}
+
+		$tables = "
+  CREATE TABLE {$wpdb->prefix}pets_fields_sections (
   id BIGINT UNSIGNED NOT NULL auto_increment,
   title varchar(200) NOT NULL,
   slug  varchar(200) NOT NULL,
-  type  varchar(200) NOT NULL,
-  meta TEXT,
-  field_section BIGINT UNSIGNED,
+  icon  varchar(200),
   PRIMARY KEY  (id)
 ) $collate;";
 
-        return $tables;
-    }
+		return $tables;
+	}
 
 	/**
 	 * Create a Field.
@@ -51,15 +47,14 @@ class Fields extends DB {
 	 *
 	 * @return false|int
 	 */
-    public function create( $data, $format = array() ) {
+	public function create( $data, $format = array() ) {
 
-		Pets_Cache::delete_cache('fields');
 		if ( ! $format ) {
 			$format = array( '%s', '%s', '%s', '%s' );
 		}
 		$data['meta'] = isset( $data['meta'] ) ? maybe_serialize( $data['meta'] ) : '';
 		return parent::create( $data, $format );
-    }
+	}
 
 	/**
 	 * Creating a Field.
@@ -71,7 +66,6 @@ class Fields extends DB {
 	public function update( $id, $data, $format = array() ) {
 		global $wpdb;
 
-		Pets_Cache::delete_cache('fields');
 		if ( ! $format ) {
 			$format = array( '%s', '%s', '%s', '%s' );
 		}

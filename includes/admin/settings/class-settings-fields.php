@@ -38,15 +38,56 @@ class Settings_Fields {
      * @return void 
      */
     public function settings_page() {
-        include PETS_PATH . 'includes/admin/class-pets-fields-table.php';
-        $table = new Fields_Table();
-        $table->prepare_items();
-        ?>
-	    <form method="post">
+        $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'fields';
+
+	    echo '<h2 class="nav-tab-wrapper woo-nav-tab-wrapper">';
+
+        echo '<a href="' . admin_url( 'edit.php?post_type=pets&page=pets-fields&tab=fields' ) . '" class="nav-tab ' .  ( ( 'fields' === $active_tab ) ? 'nav-tab-active' : '' ) . ' ">' . __( 'Fields', 'pets' ) . '</a>';
+	    echo '<a href="' . admin_url( 'edit.php?post_type=pets&page=pets-fields&tab=sections' ) . '" class="nav-tab ' .  ( ( 'sections' === $active_tab ) ? 'nav-tab-active' : '' ) . ' ">' . __( 'Sections', 'pets' ) . '</a>';
+
+	    echo '</h2>';
+	    echo '<br/>';
+
+	    switch ( $active_tab ) {
+            case 'sections':
+                $this->page_sections();
+                break;
+            default:
+                $this->page_fields();
+                break;
+        }
+    }
+
+	/**
+	 * Fields Sections Page
+	 */
+	public function page_sections() {
+		include PETS_PATH . 'includes/admin/class-pets-fields-table.php';
+		$table = new Fields_Table();
+		$table->prepare_items();
+		?>
+        <form method="post">
+			<?php
+			$table->display();
+			?>
+        </form>
+		<?php
+		$this->form();
+	}
+
+	/**
+	 * Fields Page
+	 */
+    public function page_fields() {
+	    include PETS_PATH . 'includes/admin/class-pets-fields-table.php';
+	    $table = new Fields_Table();
+	    $table->prepare_items();
+	    ?>
+        <form method="post">
 		    <?php
-            $table->display();
-            ?>
-	    </form>
+		    $table->display();
+		    ?>
+        </form>
 	    <?php
 	    $this->form();
     }
@@ -99,11 +140,17 @@ class Settings_Fields {
 			$meta = isset( $_POST['pets_field_meta'] ) ? $_POST['pets_field_meta'] : array();
 			$id   = isset( $_POST['pets_field_id'] ) ? absint( $_POST['pets_field_id'] ) : false;
 
+			$data = array(
+                'title' => $title,
+                'slug'  => $slug,
+                'type'  => $type,
+                'meta'  => $meta,
+            );
 			$pets_fields_db = new Fields();
 			if ( ! $id ) {
-				$ret = $pets_fields_db->create( $title, $slug, $type, $meta );
+				$ret = $pets_fields_db->create( $data );
 			} else {
-			    $ret = $pets_fields_db->update( $id, $title, $slug, $type, $meta );
+			    $ret = $pets_fields_db->update( $id, $data );
             }
 			if ( false === $ret ) {
 				$this->errors[] = __( 'Something went wrong. We could not create the field.', 'pets' );
