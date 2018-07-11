@@ -97,6 +97,7 @@ class Admin {
 	 */
     public function enqueue( $hook ) {
 		wp_enqueue_style( 'pets-admin', PETS_URL . '/assets/css/admin/admin.css' );
+	    wp_enqueue_style( 'pets-fontawesome', 'https://use.fontawesome.com/releases/v5.1.0/css/all.css' );
 
 		if ( 'pets_page_pets-fields' === $hook ) {
 			wp_enqueue_media();

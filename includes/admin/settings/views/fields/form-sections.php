@@ -93,6 +93,7 @@ if ( $update ) {
 				?>
 			</ul>
 			<input type="text" id="pets_field_icon_string" name="pets_field_icon_string" value="<?php echo esc_attr( $icon_string ); ?>" />
+            <p class="description"><?php echo sprintf( '<a href="https://fontawesome.com/icons" target="_blank">%s</a>', __( 'Check the Fontawesome FREE Icons and copy the whole class in here to use them.', 'pets' ) ); ?>. <?php esc_html_e( 'Or select an image using the button below.', 'pets' ); ?></p>
 			<input type="hidden" id="pets_field_icon_input" name="pets_field_icon" value="<?php echo esc_attr( $icon_id ); ?>" />
 			<button type="button" class="button button-primary pets-add-single-image-field" data-gallery="#pets_field_icon"><?php _e( 'Add Image', 'pets' ); ?></button>
 		</div>

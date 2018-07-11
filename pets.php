@@ -180,6 +180,7 @@ final class Pets {
 	 */
     public function enqueue() {
 		wp_enqueue_style( 'pets-css', PETS_URL . '/assets/css/public/pets.css', '', '' );
+		wp_enqueue_style( 'pets-fontawesome', 'https://use.fontawesome.com/releases/v5.1.0/css/all.css' );
     }
 
 	/**
