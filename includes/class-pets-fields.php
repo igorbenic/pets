@@ -284,4 +284,18 @@ class Fields {
 				break;
 		}
 	}
+
+	/**
+	 * @param $icon
+	 *
+	 * @return string
+	 */
+	public static function get_section_icon_html( $icon ) {
+		if ( ! $icon ) { return ''; }
+		if ( is_numeric( $icon ) ) {
+			return wp_get_attachment_image( $icon );
+		} else {
+			return '<span class="' . $icon . '"></span>';
+		}
+	}
 }
