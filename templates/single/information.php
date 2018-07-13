@@ -6,15 +6,20 @@
 if ( ! $information ) {
 	return;
 }
-?>
-<h3><?php esc_html_e( 'Information', 'pets' ); ?></h3>
-<ul class="pets-fields pets-information">
-	<?php
-	foreach ( $information as $title => $value ) {
-		echo '<li>';
-		echo '<strong class="pets-field-title">' . $title . ':</strong>';
-		echo $value;
-		echo '</li>';
-	}
+foreach ( $information as $section ) {
 	?>
-</ul>
+    <h3 class="pets-section-title"><?php echo \Pets\Fields::get_section_icon_html( $section['icon'] ) . esc_html( $section['title'] ); ?></h3>
+    <ul class="pets-fields pets-information">
+		<?php
+		foreach ( $section['fields'] as $field ) {
+			if ( ! $field['value'] ) {
+				continue;
+			}
+			echo '<li>';
+			echo '<strong class="pets-field-title">' . $field['title'] . ':</strong>';
+			echo $field['value'];
+			echo '</li>';
+		}
+		?>
+    </ul>
+<?php }

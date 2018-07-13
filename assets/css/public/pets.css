@@ -163,3 +163,7 @@
 .pets-search-form .button:hover {
   background-color: #010100;
 }
+.pets-section-title span[class*="fa"],
+.pets-section-title img {
+  margin-right: 10px;
+}

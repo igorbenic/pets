@@ -19,6 +19,13 @@
 .pets-form-add-field .field:nth-child(2n) {
   margin-left: 1%;
 }
+.pets-form-add-field .field:nth-child(2n+1) {
+  clear: both;
+}
+.pets-form-add-field .field.field-meta {
+  width: 100%;
+  margin-top: 1em;
+}
 .pets-form-add-field .field.field-meta .pets-field-meta-input {
   padding-right: 25px;
   position: relative;
@@ -34,4 +41,23 @@
 .pets-form-add-field .pets-submit {
   margin-top: 1em;
   clear: both;
+}
+#pets_field_icon:after {
+  content: '';
+  clear: both;
+  display: table;
+}
+.pets-section-title {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.5em !important;
+}
+.pets-section-title img {
+  display: inline-block;
+  vertical-align: middle;
+  height: 25px;
+  width: auto;
+  margin-right: 10px;
+}
+.pets-section-title span[class*="fa"] {
+  margin-right: 10px;
 }

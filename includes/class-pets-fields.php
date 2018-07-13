@@ -5,6 +5,8 @@
 
 namespace Pets;
 
+use Pets\DB\Fields_Sections;
+
 if( ! defined( 'ABSPATH' ) ) {
 	return;
 }
@@ -22,20 +24,58 @@ class Fields {
 	 */
 	public static function metabox( $post ) {
 		$post_id   = $post->ID;
-		$fields_db = new \Pets\DB\Fields();
-		$fields    = $fields_db->get_all();
+		$sections  = self::get_fields( $post_id, true, true );
 
 		echo '<table class="form-table">';
-		foreach ( $fields as $field ) {
-			self::render_field( $field, $post_id );
+		foreach ( $sections as $section ) {
+			$icon = '';
+			if ( $section['icon'] ) {
+				if ( is_numeric( $section['icon'] ) ) {
+					$icon = '<img width="50" src="' . wp_get_attachment_thumb_url( $section['icon'] ) . '">';
+				} else {
+					$icon = '<span class="' . $section['icon'] . '"></span>';
+				}
+			}
+			echo '<tr><th class="pets-section-title" colspan="2">' . $icon . $section['title'] . '</th></tr>';
+			foreach ( $section['fields'] as $field ) {
+				self::render_field( $field, $post_id );
+			}
 		}
 		echo '</table>';
 	}
 
 	/**
-	 * @param $post_id
+	 * Get all sections for Fields.
+	 *
+	 * @return array
 	 */
-	public static function get_fields( $post_id ) {
+	public static function get_sections() {
+		$sections_db = new Fields_Sections();
+		$_sections   = $sections_db->get_all();
+		$sections    = array(
+			array(
+				'title' => __( 'Information', 'pets' ),
+				'id'    => 0,
+				'icon'  => '',
+				'slug'  => 'information',
+			),
+		);
+		if ( $_sections ) {
+			foreach ( $_sections as $section ) {
+				$sections[ $section['id'] ] = $section;
+			}
+		}
+		return apply_filters( 'pets_fields_sections', $sections );
+	}
+
+	/**
+	 * @param integer $post_id       Post ID.
+	 * @param boolean $with_sections (Optional).
+	 * @param boolean $admin         Is it for admin usage.
+	 *
+	 * @return array
+	 */
+	public static function get_fields( $post_id, $with_sections = true, $admin = false ) {
 		$fields = Pets_Cache::get_cache( 'fields' );
 
 		if ( false === $fields ) {
@@ -44,24 +84,49 @@ class Fields {
 			Pets_Cache::set_cache( 'fields', $fields );
 		}
 
+		$sections = array();
+		if ( $with_sections ) {
+			$sections = self::get_sections();
+		}
+
 		if ( $fields ) {
 			foreach ( $fields as $order => $field ) {
 				$value = get_post_meta( $post_id, '_' . $field['slug'], true );
-				if ( 'checkbox' === $field['type'] ) {
+				if ( ! $admin && 'checkbox' === $field['type'] ) {
 					if ( $value ) {
 						$field['value'] = __( 'Yes', 'pets' );
 					} else {
 						$field['value'] = __( 'No', 'pets' );
 					}
 				} else {
-					$field['value'] = get_post_meta( $post_id, '_' . $field['slug'], true );
+					$field['value'] = $value;
+				}
+				if ( $with_sections ) {
+					$section = isset( $field['field_section'] ) ? absint( $field['field_section'] ) : 0;
+					if ( ! isset( $sections[ $section ] ) ) {
+						$section = 0;
+					}
+					if ( ! isset( $sections[ $section ]['fields'] ) ) {
+						$sections[ $section ]['fields'] = array();
+					}
+					$sections[ $section ]['fields'][] = $field;
 				}
 				$fields[ $order ] = $field;
+			}
+			if ( $with_sections ) {
+				$sections = array_filter( $sections, array( __CLASS__, 'remove_empty_sections' ) );
+				return apply_filters( 'pets_get_fields_sections', $sections, $post_id );
 			}
 			$fields = apply_filters( 'pets_get_fields', $fields, $post_id );
 		}
 
 		return $fields;
+	}
+
+	public static function remove_empty_sections( $section ) {
+		if ( ! isset( $section['fields'] ) ) { return false; }
+		if ( ! $section['fields'] ) { return false; }
+		return true;
 	}
 
 	/**
@@ -217,6 +282,20 @@ class Fields {
 			default:
 				do_action( 'pets_fields_render_field_' . $args['type'], $args );
 				break;
+		}
+	}
+
+	/**
+	 * @param $icon
+	 *
+	 * @return string
+	 */
+	public static function get_section_icon_html( $icon ) {
+		if ( ! $icon ) { return ''; }
+		if ( is_numeric( $icon ) ) {
+			return wp_get_attachment_image( $icon );
+		} else {
+			return '<span class="' . $icon . '"></span>';
 		}
 	}
 }

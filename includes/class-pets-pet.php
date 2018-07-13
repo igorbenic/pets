@@ -143,31 +143,38 @@ class Pet {
 
 		$fields = Fields::get_fields( $pet_id );
 
-		$information = array();
-
 		$breed = wp_get_post_terms( $pet_id, 'breed' );
-
-		if ( $breed ) {
-			$information[ __( 'Breed', 'pets' ) ] = implode( ', ', wp_list_pluck( $breed, 'name' ) );
-		}
-
 		$color = wp_get_post_terms( $pet_id, 'pet-color' );
 
-		if ( $color ) {
-			$information[ __( 'Color(s)', 'pets' ) ] = implode( ', ', wp_list_pluck( $color, 'name' ) );
-		}
+		if ( $breed || $color ) {
+			if ( ! isset( $fields[0] ) ) {
+				$fields[0] = array(
+					'title'  => __( 'Information', 'pets' ),
+					'id'     => 0,
+					'icon'   => '',
+					'slug'   => 'information',
+					'fields' => array(),
+				);
+			} elseif ( ! isset( $fields[0]['fields'] ) ) {
+				$fields[0]['fields'] = array();
+			}
 
-		if ( $fields ) {
-			foreach ( $fields as $field ) {
-				if ( null === $field['value'] || '' === $field['value'] ) {
-					continue;
-				}
+			if ( $breed ) {
+				$fields[0]['fields'][] = array(
+					'value' => implode( ', ', wp_list_pluck( $breed, 'name' ) ),
+					'title' => __( 'Breed', 'pets' ),
+				);
+			}
 
-				$information[ $field['title'] ] = $field['value'];
+			if ( $color ) {
+				$fields[0]['fields'][] = array(
+					'value' => implode( ', ', wp_list_pluck( $color, 'name' ) ),
+					'title' => __( 'Color(s)', 'pets' ),
+				);
 			}
 		}
 
-		return $information;
+		return $fields;
 	}
 
 	/**

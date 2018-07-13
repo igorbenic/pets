@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         0.2.1
+ * Version:         0.3.0
  *
  * @package         Pets
  */
@@ -56,7 +56,7 @@ final class Pets {
      * Version
      * @var string
      */
-    public $version = '0.2.1';
+    public $version = '0.3.0';
 
     /**
      * Run everything
@@ -72,6 +72,7 @@ final class Pets {
     public function define_constants() {
         define( 'PETS_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PETS_URL', plugin_dir_url( __FILE__ ) );
+        define( 'PETS_VERSION', $this->version );
     }
 
     /**
@@ -86,6 +87,8 @@ final class Pets {
 	    include_once 'includes/class-pets-shortcodes.php';
 	    include_once 'includes/class-pets-pet.php';
 	    include_once 'includes/class-pets-widgets.php';
+	    include_once 'includes/class-pets-installer.php';
+
 	    // Settings Class.
 	    include_once 'includes/admin/settings/class-settings.php';
 	    include_once 'includes/functions-settings.php';
@@ -93,11 +96,14 @@ final class Pets {
 	    include_once 'includes/widgets/class-widgets-single-pet.php';
 
 	    include_once 'includes/functions-templates.php';
+	    include_once 'includes/functions-upgrades.php';
 
         /**
          * Database Classes
          */
+	    include_once 'includes/abstracts/class-db.php';
         include_once 'includes/db/class-pets-fields.php';
+        include_once 'includes/db/class-pets-sections.php';
 
         if( is_admin() ) {
             include_once 'includes/admin/class-admin.php';
@@ -113,12 +119,25 @@ final class Pets {
     	include_once 'includes/integrations/class-give.php';
 	}
 
+	/**
+	 * Activation method.
+	 */
+	public function activation() {
+		$installer = new Pets_Installer();
+		$installer->install();
+
+		$cpt = new CPT();
+		$cpt->init();
+		flush_rewrite_rules();
+	}
+
     /**
      * Initialize classes, settings.
      * @return void
      */
     public function init() {
-        \register_activation_hook( __FILE__, array( '\Pets\DB\Fields', 'install' ) );
+        \register_activation_hook( __FILE__, array( $this, 'activation' ) );
+
 
         if( is_admin() ) {
             $admin = new Admin\Admin();
@@ -142,6 +161,7 @@ final class Pets {
          * Actions
          */
         add_action( 'init', array( $cpt, 'init' ) );
+	    add_action( 'init', array( $this, 'check_versions' ) );
 	    add_action( 'init', array( $this, 'add_image_sizes' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
         add_action( 'plugins_loaded', array( $this, 'include_integrations') );
@@ -160,6 +180,7 @@ final class Pets {
 	 */
     public function enqueue() {
 		wp_enqueue_style( 'pets-css', PETS_URL . '/assets/css/public/pets.css', '', '' );
+		wp_enqueue_style( 'pets-fontawesome', 'https://use.fontawesome.com/releases/v5.1.0/css/all.css' );
     }
 
 	/**
@@ -170,6 +191,19 @@ final class Pets {
 			\add_image_size( 'pets-thumbnail', 360 );
 		}
     }
+
+	/**
+	 * Checking for version, updating if necessary
+	 * @return void
+	 */
+	public function check_versions() {
+		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'pets_version', '0.2.0' ) !== $this->version ) {
+			$installer = new Pets_Installer();
+			$installer->install();
+			$installer->update( get_option( 'pets_version', '0.2.0' ) );
+			do_action( 'pets_updated' );
+		}
+	}
 }
 
 /**
