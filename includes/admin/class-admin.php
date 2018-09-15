@@ -23,7 +23,15 @@ class Admin {
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 	    add_action( 'add_meta_boxes', array( $this, 'metaboxes' ) );
 	    add_action( 'save_post', array( $this, 'save_post' ), 20, 2 );
+
+	    include PETS_PATH . '/includes/abstracts/class-metabox.php';
+	    $this->post_types();
     }
+
+    private function post_types() {
+    	include 'post-types/class-pets-sponsors.php';
+    }
+
 
 	/**
 	 * Saving the values.

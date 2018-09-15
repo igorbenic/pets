@@ -187,4 +187,35 @@ class Pet {
 		pets_get_template( 'single/information', array( 'information' => $information ) );
 		return ob_get_clean();
 	}
+
+	/**
+	 * Getting Sponsors
+	 *
+	 * @return array
+	 */
+	public function get_sponsors() {
+		$sponsors = get_the_terms( $this->get_id(), 'sponsors' );
+		if ( ! $sponsors || is_wp_error( $sponsors ) ) {
+			return array();
+		}
+
+		return $sponsors;
+	}
+
+	/**
+	 * Get the formatted sponsors.
+	 *
+	 * @return string
+	 */
+	public function get_formatted_sponsors() {
+		$sponsors = $this->get_sponsors();
+
+		if ( ! $sponsors ) {
+			return '';
+		}
+
+		ob_start();
+		pets_get_template( 'single/sponsors', array( 'sponsors' => $sponsors ) );
+		return ob_get_clean();
+	}
 }

@@ -121,6 +121,46 @@ class CPT {
             'rest_base'         => 'pet-color',
             'rest_controller_class' => 'WP_REST_Terms_Controller',
         ) );
+
+        $this->register_sponsors();
+    }
+
+	/**
+	 * Registering the Sponsors Taxonomy.
+	 */
+    public function register_sponsors() {
+	    $labels = array(
+		    'name'                       => _x( 'Sponsors', 'Taxonomy General Name', 'pets' ),
+		    'singular_name'              => _x( 'Sponsor', 'Taxonomy Singular Name', 'pets' ),
+		    'menu_name'                  => __( 'Sponsors', 'pets' ),
+		    'all_items'                  => __( 'All Sponsors', 'pets' ),
+		    'parent_item'                => __( 'Parent Sponsor', 'pets' ),
+		    'parent_item_colon'          => __( 'Parent Sponsor:', 'pets' ),
+		    'new_item_name'              => __( 'New Sponsor Name', 'pets' ),
+		    'add_new_item'               => __( 'Add New Sponsor', 'pets' ),
+		    'edit_item'                  => __( 'Edit Sponsor', 'pets' ),
+		    'update_item'                => __( 'Update Sponsor', 'pets' ),
+		    'view_item'                  => __( 'View Sponsor', 'pets' ),
+		    'separate_items_with_commas' => __( 'Separate Sponsors with commas', 'pets' ),
+		    'add_or_remove_items'        => __( 'Add or remove Sponsors', 'pets' ),
+		    'choose_from_most_used'      => __( 'Choose from the most used', 'pets' ),
+		    'popular_items'              => __( 'Popular Sponsors', 'pets' ),
+		    'search_items'               => __( 'Search Sponsors', 'pets' ),
+		    'not_found'                  => __( 'Not Found', 'pets' ),
+		    'no_terms'                   => __( 'No Sponsors', 'pets' ),
+		    'items_list'                 => __( 'Sponsors list', 'pets' ),
+		    'items_list_navigation'      => __( 'Sponsors list navigation', 'pets' ),
+	    );
+	    $args = array(
+		    'labels'                     => $labels,
+		    'hierarchical'               => true,
+		    'public'                     => true,
+		    'show_ui'                    => true,
+		    'show_admin_column'          => true,
+		    'show_in_nav_menus'          => true,
+		    'show_tagcloud'              => true,
+	    );
+	    register_taxonomy( 'sponsors', array( 'pets' ), $args );
     }
 
     /**

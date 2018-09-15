@@ -25,6 +25,16 @@
       &:not(:last-child) {
         border-bottom: 1px dashed rgba( 0, 0, 0, 0.5 );
       }
+
+      .pets-button {
+        padding: 1em;
+        line-height: 1;
+        font-size: 9px;
+        border-radius: 3px;
+        border: none;
+
+        &:hover { border: none; }
+      }
     }
   }
 }
@@ -192,6 +202,17 @@
     &:hover {
       background-color: darken( @yellow, 50% );
     }
+  }
+}
+
+.pets-widget-form {
+  .pets-search-form {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+
+    .fieldset { display: block; }
+
   }
 }
 

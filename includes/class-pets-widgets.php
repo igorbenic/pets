@@ -30,6 +30,7 @@ class Widgets {
 	public function get_widgets() {
 		return apply_filters( 'pets_get_widgets', array(
 			'\Pets\Widgets\Single_Pet',
+			'\Pets\Widgets\Search',
 		) );
 	}
 }

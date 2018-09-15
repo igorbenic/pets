@@ -48,13 +48,31 @@ class Settings {
 
 		$active_tab = $_POST['pets_settings_save'];
 
-		if ( ! isset( $_POST['pets_' . $active_tab ] ) ) {
-			return;
-		}
+		$validated_settings = $this->validate_settings( $active_tab );
 
-		update_option( 'pets_' . $active_tab, $_POST['pets_' . $active_tab ] );
+		update_option( 'pets_' . $active_tab, $validated_settings );
 
 		do_action( 'pets_settings_updated', $active_tab );
+    }
+
+	/**
+     * Validate Settings
+     *
+	 * @param string $tab Tab for which we validate settings.
+	 *
+	 * @return array
+	 */
+    public function validate_settings( $tab ) {
+        $posted_fields     = isset( $_POST['pets_' . $tab ] ) ? $_POST['pets_' . $tab ] : array();
+        $registered_fields = $this->get_fields( $tab );
+
+        foreach ( $registered_fields as $name => $fields ) {
+            if ( ! isset( $posted_fields[ $name ] ) && $fields['type'] === 'checkbox' ) {
+                $posted_fields[ $name ] = '0';
+            }
+        }
+
+        return $posted_fields;
     }
 
     /**
@@ -89,6 +107,7 @@ class Settings {
     public function get_tabs() {
 		return apply_filters( 'pets_settings_tabs', array(
 			'general' => __( 'General', 'pets' ),
+            'sponsors' => __( 'Sponsors', 'pets' ),
 		));
     }
 
@@ -250,7 +269,14 @@ class Settings {
 					),
 					'default' => 'after'
 				)
-			)
+			),
+            'sponsors' => array(
+                'show_sponsors' => array(
+                    'title' => __( 'Show Sponsors', 'pets' ),
+                    'type'  => 'checkbox',
+                    'default' => '1',
+                )
+            )
 		));
     }
 
