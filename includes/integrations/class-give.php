@@ -111,8 +111,48 @@ class Give {
 	 */
 	public function save_selected_pet( $payment_id, $data ) {
 		if ( isset( $_POST['give_form_select_pet'] ) ) {
+
+		    if ( ! $payment_id ) {
+		        return;
+            }
+
 			$payment = new \Give_Payment( $payment_id );
 			$payment->update_meta( 'selected_pet', absint( $_POST['give_form_select_pet'] ) );
+
+			$donor_id = $payment->donor_id;
+			$sponsors = get_terms( array(
+                'taxonomy'   => 'sponsors',
+                'hide_empty' => false,
+                'meta_query' => array (
+                    array(
+                        'key'   => '_give_donor_id',
+                        'value' => $donor_id,
+                        'type'  => 'NUMERIC'
+                    )
+                )
+            ));
+
+			if ( ! $sponsors ) {
+			    // This Donor is not connected with any Sponsor. Let's create it.
+                $name    = trim( $data['user_info']['first_name'] . ' ' . $data['user_info']['last_name'] );
+				$sponsor = wp_insert_term( $name, 'sponsors' );
+				if ( is_wp_error( $sponsor ) ) {
+				    return;
+                }
+
+                $sponsor_id = $sponsor['term_id'];
+				add_term_meta( $sponsor_id, '_give_donor_id', absint( $donor_id ) );
+
+				if ( $data['user_info']['id'] ) {
+					add_term_meta( $sponsor_id, '_user_id', absint( $data['user_info']['id'] ) );
+                }
+            } else {
+			    $sponsor_id = $sponsors[0]->term_id;
+            }
+
+            if ( $sponsor_id ) {
+	            wp_set_post_terms( absint( $_POST['give_form_select_pet'] ), array( $sponsor_id ), 'sponsors', true );
+            }
 		}
 	}
 

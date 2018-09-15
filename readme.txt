@@ -3,7 +3,7 @@ Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
 Tested up to: 4.9.6
-Stable tag: 0.2.1
+Stable tag: 0.4.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -24,7 +24,7 @@ Current Features:
 
 - Managing Pets
 - Two Taxonomies (Breed and Color)
-- Custom Fields
+- Custom Fields & Sections
 - Archive Search Form
 - Archive Grid Layout
 - Widgets
@@ -34,11 +34,6 @@ Shortcodes:
 
 [pets_single id=0 image=true info=true] (Set image or info to false)
 
-
-Coming in 0.3.0:
-
-- Sponsors
-- Field Sections (move various pet information to sections)
 
 Roadmap (planned features):
 
@@ -69,6 +64,14 @@ You're welcome to give your own ideas and features in the support forum.
 Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
+
+= 0.4.0 =
+- Sponsors for Pets
+- Give integrated with Sponsors
+- Pet Search Widget
+
+= 0.3.0 =
+- Added Sections for Fields
 
 = 0.2.1 =
 - Fixed styles

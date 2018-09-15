@@ -55,6 +55,11 @@ class Pets_Template {
 			}
 		}
 
+		$show_sponsors = absint( pets_get_setting( 'show_sponsors', 'sponsors', '1' ) );
+		if ( $show_sponsors ) {
+			$content .= $pet->get_formatted_sponsors();
+		}
+
 		return $content;
 	}
 

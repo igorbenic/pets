@@ -20,6 +20,16 @@
 .pets-fields.pets-information li:not(:last-child) {
   border-bottom: 1px dashed rgba(0, 0, 0, 0.5);
 }
+.pets-fields.pets-information li .pets-button {
+  padding: 1em;
+  line-height: 1;
+  font-size: 9px;
+  border-radius: 3px;
+  border: none;
+}
+.pets-fields.pets-information li .pets-button:hover {
+  border: none;
+}
 .wrap-pets {
   max-width: 1000px;
   width: 90%;
@@ -162,6 +172,14 @@
 }
 .pets-search-form .button:hover {
   background-color: #010100;
+}
+.pets-widget-form .pets-search-form {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.pets-widget-form .pets-search-form .fieldset {
+  display: block;
 }
 .pets-section-title span[class*="fa"],
 .pets-section-title img {
