@@ -3,7 +3,7 @@ Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
 Tested up to: 4.9.6
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -64,6 +64,9 @@ You're welcome to give your own ideas and features in the support forum.
 Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
+
+= 0.4.1 =
+- Fixing error when donating for pets where sponsors would cause a fatal error.
 
 = 0.4.0 =
 - Sponsors for Pets

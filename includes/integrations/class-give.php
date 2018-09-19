@@ -119,6 +119,7 @@ class Give {
 			$payment = new \Give_Payment( $payment_id );
 			$payment->update_meta( 'selected_pet', absint( $_POST['give_form_select_pet'] ) );
 
+			$sponsor_id = 0;
 			$donor_id = $payment->donor_id;
 			$sponsors = get_terms( array(
                 'taxonomy'   => 'sponsors',
@@ -131,6 +132,10 @@ class Give {
                     )
                 )
             ));
+
+			if ( is_wp_error( $sponsors ) ) {
+			    return;
+            }
 
 			if ( ! $sponsors ) {
 			    // This Donor is not connected with any Sponsor. Let's create it.
