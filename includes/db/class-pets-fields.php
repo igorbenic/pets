@@ -37,6 +37,7 @@ class Fields extends DB {
   type  varchar(200) NOT NULL,
   meta TEXT,
   field_section BIGINT UNSIGNED,
+  searchable TINYINT UNSIGNED,
   PRIMARY KEY  (id)
 ) $collate;";
 
@@ -55,7 +56,7 @@ class Fields extends DB {
 
 		Pets_Cache::delete_cache('fields');
 		if ( ! $format ) {
-			$format = array( '%s', '%s', '%s', '%s', '%s' );
+			$format = array( '%s', '%s', '%s', '%s', '%s', '%s' );
 		}
 		$data['meta'] = isset( $data['meta'] ) ? maybe_serialize( $data['meta'] ) : '';
 		return parent::create( $data, $format );
@@ -73,7 +74,7 @@ class Fields extends DB {
 
 		Pets_Cache::delete_cache('fields');
 		if ( ! $format ) {
-			$format = array( '%s', '%s', '%s', '%s', '%s' );
+			$format = array( '%s', '%s', '%s', '%s', '%s', '%s' );
 		}
 		$data['meta'] = isset( $data['meta'] ) ? maybe_serialize( $data['meta'] ) : '';
 		return parent::update( $id, $data, $format );

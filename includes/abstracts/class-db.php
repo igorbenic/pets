@@ -107,4 +107,5 @@ abstract class DB {
 
 		return $row;
 	}
+
 }

@@ -14,3 +14,10 @@ function pets_upgrade_030() {
 	\Pets\DB\Fields_Sections::install();
 	\Pets\DB\Fields::install();
 }
+
+/**
+ * Upgrading the field table.
+ */
+function pets_upgrade_050() {
+	\Pets\DB\Fields::install();
+}

@@ -32,11 +32,12 @@ class Fields_Table extends \WP_List_Table {
      */
     function get_columns() {
     	$columns = array(
-	        'cb'      => '<input type="checkbox" />',
-	        'title'   => __( 'Title', 'pets' ),
-	        'type'    => __( 'Type', 'pets' ),
-		    'meta'    => __( 'Meta', 'pets' ),
+	        'cb'            => '<input type="checkbox" />',
+	        'title'         => __( 'Title', 'pets' ),
+	        'type'          => __( 'Type', 'pets' ),
+		    'meta'          => __( 'Meta', 'pets' ),
 		    'field_section' => __( 'Section', 'pets' ),
+		    'searchable'    => __( 'Searchable', 'pets' ),
 	    );
 
       return $columns;
@@ -50,6 +51,15 @@ class Fields_Table extends \WP_List_Table {
     function column_default( $item, $column ) {
 		return $item[ $column ];
     }
+
+	/**
+	 * Get values
+	 * @param object $item
+	 * @param string $column
+	 */
+	function column_searchable( $item ) {
+		return absint( $item[ 'searchable' ] ) === 1 ? __( 'Yes', 'pets' ) : __( 'No', 'pets' );
+	}
 
 	/**
 	 * @param $item

@@ -35,6 +35,10 @@ if ( $update ) {
 	$button     = __( 'Save Changes', 'pets' );
 }
 
+if ( ! isset( $field['searchable'] ) ) {
+    $field['searchable'] = 0;
+}
+
 ?>
 <form method="post" class="pets-form pets-form-field pets-form-add-field">
 	<?php
@@ -60,6 +64,12 @@ if ( $update ) {
             <input class="widefat" type="text" name="pets_field_slug" id="pets_field_slug"
                    value="<?php echo isset( $field['slug'] ) ? esc_attr( $field['slug'] ) : ''; ?>"/>
             <p class="description"><?php esc_html_e( 'If empty, it will be generated from the title.', 'pets' ); ?></p>
+        </div>
+        <div class="field">
+            <label for="pets_field_searchable"><?php esc_html_e( 'Searchable?', 'pets' ); ?></label>
+            <input <?php checked( $field['searchable'], 1, true ); ?> class="widefat" type="checkbox" name="pets_field_searchable" id="pets_field_searchable"
+                   value="yes" />
+            <p class="description"><?php esc_html_e( 'If checked, it will appear in the search form.', 'pets' ); ?></p>
         </div>
         <div class="field">
             <label for="pets_field_sections"><?php esc_html_e( 'Sections', 'pets' ); ?></label>

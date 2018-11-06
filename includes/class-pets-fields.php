@@ -76,13 +76,7 @@ class Fields {
 	 * @return array
 	 */
 	public static function get_fields( $post_id, $with_sections = true, $admin = false ) {
-		$fields = Pets_Cache::get_cache( 'fields' );
-
-		if ( false === $fields ) {
-			$fields_db = new \Pets\DB\Fields();
-			$fields    = $fields_db->get_all();
-			Pets_Cache::set_cache( 'fields', $fields );
-		}
+		$fields = self::get_cached_fields();
 
 		$sections = array();
 		if ( $with_sections ) {
@@ -297,5 +291,31 @@ class Fields {
 		} else {
 			return '<span class="' . $icon . '"></span>';
 		}
+	}
+
+	/**
+	 * Returning true only for searchable items. Used in array_filter.
+	 *
+	 * @param $item
+	 *
+	 * @return bool
+	 */
+	public static function only_searchable( $item ) {
+		return absint( $item['searchable'] ) === 1;
+	}
+
+	/**
+	 * Get Cached Fields from DB.
+	 */
+	public static function get_cached_fields() {
+		$fields = Pets_Cache::get_cache( 'fields' );
+
+		if ( false === $fields ) {
+			$fields_db = new \Pets\DB\Fields();
+			$fields    = $fields_db->get_all();
+			Pets_Cache::set_cache( 'fields', $fields );
+		}
+
+		return $fields;
 	}
 }

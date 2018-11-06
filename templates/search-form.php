@@ -3,6 +3,8 @@
  * The search form for pets.
  */
 
+use Pets\DB\Fields;
+
 $breeds         = get_terms( array(
 	'taxonomy'   => 'breed',
 	'hide_empty' => false,
@@ -14,6 +16,10 @@ $colors         = get_terms( array(
 	'hide_empty' => false,
 ) );
 $selected_color = isset( $_REQUEST['pet-color'] ) ? sanitize_text_field( $_REQUEST['pet-color'] ) : '';
+
+$pet_fields_db = new Fields();
+$pet_fields    = $pet_fields_db->get_all();
+$pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searchable' ) );
 
 ?>
 <form class="pets-search-form" method="GET" action="<?php echo get_post_type_archive_link( 'pets' ); ?>">
@@ -55,5 +61,51 @@ $selected_color = isset( $_REQUEST['pet-color'] ) ? sanitize_text_field( $_REQUE
             </select>
         </div>
     </div>
+    <?php
+    if ( $pet_fields ) {
+        $searched_fields = isset( $_GET['pets_search'] ) ? $_GET['pets_search'] : array();
+        ?>
+        <div class="fieldset">
+            <?php
+                foreach( $pet_fields as $field ) {
+                    $name = 'pets_search[' .esc_attr( $field['slug'] ) . ']';
+                    $selected = isset( $searched_fields[ $field['slug'] ] ) ? $searched_fields[ $field['slug'] ] : '';
+                    ?>
+                    <div class="search-field">
+                        <label for="<?php echo esc_attr( $name ); ?>">
+			                <?php echo esc_html( $field['title'] ); ?>
+                        </label>
+                        <?php
+                        if ( 'text' === $field['type'] || 'textarea' === $field['type'] ) {
+                            ?>
+                            <input type="text" name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $selected ); ?>" />
+                            <?php
+                        } else {
+                            $options = isset( $field['meta'] ) && isset( $field['meta']['options'] ) ? $field['meta']['options'] : array( __( 'No', 'pets' ), __( 'Yes', 'pets' ), );
+                            ?>
+                            <select id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>">
+                                <option value="all"><?php esc_html_e( 'All', 'pets' ); ?></option>
+		                        <?php
+		                        if ( $options ) {
+			                        foreach ( $options as $key => $option ) {
+			                            $value = 'checkbox' === $field['type'] ? $key : $option;
+				                        ?>
+                                        <option <?php selected( $selected, $value, true ); ?> value="<?php echo esc_attr( $value ); ?>"><?php echo $option; ?></option>
+				                        <?php
+			                        }
+		                        }
+		                        ?>
+                            </select>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+            ?>
+        </div>
+        <?php
+    }
+    ?>
     <button type="submit" class="button"><?php esc_html_e( 'Search Pets', 'pets' ); ?></button>
 </form>

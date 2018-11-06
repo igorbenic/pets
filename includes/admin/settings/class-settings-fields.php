@@ -156,6 +156,7 @@ class Settings_Fields {
 			$meta    = isset( $_POST['pets_field_meta'] ) ? $_POST['pets_field_meta'] : array();
 			$id      = isset( $_POST['pets_field_id'] ) ? absint( $_POST['pets_field_id'] ) : false;
 			$section = isset( $_POST['pets_field_sections'] ) ? absint( $_POST['pets_field_sections'] ) : 0;
+			$search  = isset( $_POST['pets_field_searchable'] ) ? 1 : 0;
 
 			$data = array(
                 'title'         => $title,
@@ -163,7 +164,9 @@ class Settings_Fields {
                 'type'          => $type,
                 'meta'          => $meta,
                 'field_section' => $section,
+                'searchable'    => $search
             );
+
 			$pets_fields_db = new Fields();
 			if ( ! $id ) {
 				$ret = $pets_fields_db->create( $data );
