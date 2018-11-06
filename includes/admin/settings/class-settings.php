@@ -268,7 +268,12 @@ class Settings {
 						'before' => __( 'Before the content', 'pets' ),
 					),
 					'default' => 'after'
-				)
+				),
+                'location_search' => array(
+	                'title' => __( 'Location in Search?', 'pets' ),
+	                'type'  => 'checkbox',
+	                'default' => '0'
+                )
 			),
             'sponsors' => array(
                 'show_sponsors' => array(

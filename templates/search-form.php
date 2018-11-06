@@ -17,6 +17,8 @@ $colors         = get_terms( array(
 ) );
 $selected_color = isset( $_REQUEST['pet-color'] ) ? sanitize_text_field( $_REQUEST['pet-color'] ) : '';
 
+$location_search = absint( pets_get_setting( 'location_search', 'general', '0' ) ) ? true : false;
+
 $pet_fields_db = new Fields();
 $pet_fields    = $pet_fields_db->get_all();
 $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searchable' ) );
@@ -60,6 +62,36 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
 				?>
             </select>
         </div>
+        <?php
+        if ( $location_search ) {
+	        $locations         = get_terms( array(
+		        'taxonomy'   => 'pet-locations',
+		        'hide_empty' => true,
+	        ) );
+	        $selected_location = isset( $_REQUEST['pet-locations'] ) ? sanitize_text_field( $_REQUEST['pet-locations'] ) : '';
+
+	        ?>
+            <div class="search-field">
+                <label for="pets_locations">
+			        <?php echo esc_html_e( 'Location', 'pets' ); ?>
+                </label>
+                <select id="pets_locations" name="pet-locations">
+                    <option value="0"><?php esc_html_e( 'All Locations', 'pets' ); ?></option>
+			        <?php
+			        if ( $locations ) {
+				        foreach ( $locations as $location ) {
+					        ?>
+                            <option <?php selected( $selected_location, $location->slug, true ); ?>
+                                    value="<?php echo esc_attr( $location->slug ); ?>"><?php echo $location->name; ?></option>
+					        <?php
+				        }
+			        }
+			        ?>
+                </select>
+            </div>
+	        <?php
+        }
+        ?>
     </div>
     <?php
     if ( $pet_fields ) {

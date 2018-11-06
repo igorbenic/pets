@@ -123,6 +123,7 @@ class CPT {
         ) );
 
         $this->register_sponsors();
+        $this->register_locations();
     }
 
 	/**
@@ -162,6 +163,44 @@ class CPT {
 	    );
 	    register_taxonomy( 'sponsors', array( 'pets' ), $args );
     }
+
+	/**
+	 * Registering the Sponsors Taxonomy.
+	 */
+	public function register_locations() {
+		$labels = array(
+			'name'                       => _x( 'Locations', 'Taxonomy General Name', 'pets' ),
+			'singular_name'              => _x( 'Location', 'Taxonomy Singular Name', 'pets' ),
+			'menu_name'                  => __( 'Locations', 'pets' ),
+			'all_items'                  => __( 'All Locations', 'pets' ),
+			'parent_item'                => __( 'Parent Location', 'pets' ),
+			'parent_item_colon'          => __( 'Parent Location:', 'pets' ),
+			'new_item_name'              => __( 'New Location Name', 'pets' ),
+			'add_new_item'               => __( 'Add New Location', 'pets' ),
+			'edit_item'                  => __( 'Edit Location', 'pets' ),
+			'update_item'                => __( 'Update Location', 'pets' ),
+			'view_item'                  => __( 'View Location', 'pets' ),
+			'separate_items_with_commas' => __( 'Separate Locations with commas', 'pets' ),
+			'add_or_remove_items'        => __( 'Add or remove Location', 'pets' ),
+			'choose_from_most_used'      => __( 'Choose from the most used', 'pets' ),
+			'popular_items'              => __( 'Popular Locations', 'pets' ),
+			'search_items'               => __( 'Search Locations', 'pets' ),
+			'not_found'                  => __( 'Not Found', 'pets' ),
+			'no_terms'                   => __( 'No Locations', 'pets' ),
+			'items_list'                 => __( 'Location list', 'pets' ),
+			'items_list_navigation'      => __( 'Location list navigation', 'pets' ),
+		);
+		$args = array(
+			'labels'                     => $labels,
+			'hierarchical'               => true,
+			'public'                     => true,
+			'show_ui'                    => true,
+			'show_admin_column'          => true,
+			'show_in_nav_menus'          => true,
+			'show_tagcloud'              => true,
+		);
+		register_taxonomy( 'pet-locations', array( 'pets' ), $args );
+	}
 
     /**
      * Update messages related to our post types

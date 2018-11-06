@@ -39,7 +39,6 @@ Roadmap (planned features):
 
 - Supplies you need for your pets (integrated with Give)
 - Favorites
-- Locations
 - Partners (such as Vet stations)
 - Activities (people can take a dog from shelter for a walk in the park)
 - Found/Lost Pets
@@ -64,6 +63,10 @@ You're welcome to give your own ideas and features in the support forum.
 Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
+
+= 0.5.0 =
+- Fields can now also be defined as searchable and they'll appear in the search form.
+- Pet Locations
 
 = 0.4.1 =
 - Fixing error when donating for pets where sponsors would cause a fatal error.
