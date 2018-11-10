@@ -25,7 +25,12 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
 
 ?>
 <form class="pets-search-form" method="GET" action="<?php echo get_post_type_archive_link( 'pets' ); ?>">
-    <div class="fieldset">
+    <?php
+
+    if ( $breeds || $colors || $location_search ) {
+        ?>
+        <div class="fieldset">
+        <?php if ( $breeds ) { ?>
         <div class="search-field">
             <label for="pets_breed">
 				<?php echo esc_html_e( 'Breed', 'pets' ); ?>
@@ -33,35 +38,39 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
             <select id="pets_breed" name="breed">
                 <option value="0"><?php esc_html_e( 'All Breeds', 'pets' ); ?></option>
 				<?php
-				if ( $breeds ) {
+
 					foreach ( $breeds as $breed ) {
 						?>
                         <option <?php selected( $selected_breed, $breed->slug, true ); ?>
                                 value="<?php echo esc_attr( $breed->slug ); ?>"><?php echo $breed->name; ?></option>
 						<?php
 					}
-				}
+
 				?>
             </select>
         </div>
-        <div class="search-field">
-            <label for="pets_color">
-				<?php echo esc_html_e( 'Color', 'pets' ); ?>
-            </label>
-            <select id="pets_color" name="pet-color">
-                <option value="0"><?php esc_html_e( 'All Colors', 'pets' ); ?></option>
-				<?php
-				if ( $colors ) {
-					foreach ( $colors as $color ) {
-						?>
-                        <option <?php selected( $selected_color, $color->slug, true ); ?>
-                                value="<?php echo esc_attr( $color->slug ); ?>"><?php echo $color->name; ?></option>
-						<?php
-					}
-				}
-				?>
-            </select>
-        </div>
+        <?php } ?>
+        <?php
+        if ( $colors ) {
+            ?>
+            <div class="search-field">
+                <label for="pets_color">
+                    <?php echo esc_html_e( 'Color', 'pets' ); ?>
+                </label>
+                <select id="pets_color" name="pet-color">
+                    <option value="0"><?php esc_html_e( 'All Colors', 'pets' ); ?></option>
+                    <?php
+
+                        foreach ( $colors as $color ) {
+                            ?>
+                            <option <?php selected( $selected_color, $color->slug, true ); ?>
+                                    value="<?php echo esc_attr( $color->slug ); ?>"><?php echo $color->name; ?></option>
+                            <?php
+                        }
+                    ?>
+                </select>
+            </div>
+        <?php } ?>
         <?php
         if ( $location_search ) {
 	        $locations         = get_terms( array(
@@ -92,7 +101,10 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
 	        <?php
         }
         ?>
-    </div>
+        </div>
+        <?php
+    }
+    ?>
     <?php
     if ( $pet_fields ) {
         $searched_fields = isset( $_GET['pets_search'] ) ? $_GET['pets_search'] : array();

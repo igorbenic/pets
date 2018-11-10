@@ -66,6 +66,7 @@ Make sure you have set the donation form under Pets > Settings > Give.
 
 = 0.5.1 =
 - Fix: Custom Empty Search Fields would not return all pets.
+- Fix: Hiding taxonomies if no terms (colors or breed).
 
 = 0.5.0 =
 - Fields can now also be defined as searchable and they'll appear in the search form.
