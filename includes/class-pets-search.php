@@ -82,6 +82,11 @@ class Search {
 				if ( 'all' === $field_value ) {
 					continue;
 				}
+
+				if ( ! $field_value ) {
+					continue;
+				}
+
 				$meta = array(
 					'key'   => '_' . $field_slug,
 					'value' => $field_value,
@@ -91,6 +96,7 @@ class Search {
 					$meta['value'] = '';
 					$meta['compare'] = 'NOT EXISTS';
 				}
+
 				$meta_query[] = $meta;
 			}
 			if ( $meta_query ) {

@@ -3,7 +3,7 @@ Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
 Tested up to: 4.9.6
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,9 @@ You're welcome to give your own ideas and features in the support forum.
 Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
+
+= 0.5.1 =
+- Fix: Custom Empty Search Fields would not return all pets.
 
 = 0.5.0 =
 - Fields can now also be defined as searchable and they'll appear in the search form.

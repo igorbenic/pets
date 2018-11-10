@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         0.5.0
+ * Version:         0.5.1
  *
  * @package         Pets
  */
@@ -56,7 +56,7 @@ final class Pets {
      * Version
      * @var string
      */
-    public $version = '0.5.0';
+    public $version = '0.5.1';
 
     /**
      * Run everything
