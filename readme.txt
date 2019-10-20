@@ -2,8 +2,8 @@
 Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
-Tested up to: 4.9.6
-Stable tag: 0.5.1
+Tested up to: 5.2.4
+Stable tag: 1.0.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,6 +63,10 @@ You're welcome to give your own ideas and features in the support forum.
 Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
+
+= 1.0.0 - 2019-09-XX =
+- New: Dropdown and Radio fields can be multiselected when searching.
+- New: PetFinder integration. Add keys under Settings and a [pets_petfinder] shortcode in a page.
 
 = 0.5.1 =
 - Fix: Custom Empty Search Fields would not return all pets.

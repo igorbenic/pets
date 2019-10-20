@@ -32,8 +32,21 @@ class Shortcodes {
 	 */
 	public function get_shortcodes() {
 		return apply_filters( 'pets_shortcodes', array(
-			'single' => array( $this, 'single_pet' )
+			'single' => array( $this, 'single_pet' ),
+			'petfinder' => array( $this, 'petfinder' ),
 		));
+	}
+
+	/**
+	 * Showing a single pet
+	 */
+	public function petfinder( $args ) {
+
+		ob_start();
+
+		pets_locate_template( 'shortcode/petfinder.php', true );
+
+		return ob_get_clean();
 	}
 
 	/**
