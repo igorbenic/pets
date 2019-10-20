@@ -35,6 +35,9 @@ Shortcodes:
 [pets_single id=0 image=true info=true] (Set image or info to false)
 
 
+[pets_petfinder] - Show the Petfinder search from and animals
+
+
 Roadmap (planned features):
 
 - Supplies you need for your pets (integrated with Give)
