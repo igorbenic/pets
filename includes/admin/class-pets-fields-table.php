@@ -89,6 +89,9 @@ class Fields_Table extends \WP_List_Table {
     	if ( $meta ) {
     		$output = '';
     		if ( is_array( $meta ) ) {
+			    if ( isset( $meta['multiple_search'] ) && 'yes' === $meta['multiple_search'] )  {
+				    $output .= __( 'Multiple Search:', 'pets' ) . ' ' . __( 'Yes', 'pets' ) . '<br/>';
+			    }
     			if ( isset( $meta['options'] ) )  {
     				$output .= __( 'Options:', 'pets' ) . ' ' . implode( ', ', $meta['options'] );
 			    }

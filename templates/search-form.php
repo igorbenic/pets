@@ -5,6 +5,8 @@
 
 use Pets\DB\Fields;
 
+$form_action = isset( $form_action ) ? $form_action : get_post_type_archive_link( 'pets' );
+
 $breeds         = get_terms( array(
 	'taxonomy'   => 'breed',
 	'hide_empty' => false,
@@ -24,7 +26,7 @@ $pet_fields    = $pet_fields_db->get_all();
 $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searchable' ) );
 
 ?>
-<form class="pets-search-form" method="GET" action="<?php echo get_post_type_archive_link( 'pets' ); ?>">
+<form class="pets-search-form" method="GET" action="<?php echo $form_action; ?>">
     <?php
 
     if ( $breeds || $colors || $location_search ) {
@@ -82,7 +84,7 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
 	        ?>
             <div class="search-field">
                 <label for="pets_locations">
-			        <?php echo esc_html_e( 'Location', 'pets' ); ?>
+			        <?php esc_html_e( 'Location', 'pets' ); ?>
                 </label>
                 <select id="pets_locations" name="pet-locations">
                     <option value="0"><?php esc_html_e( 'All Locations', 'pets' ); ?></option>
@@ -125,22 +127,41 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
                             <input type="text" name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( $selected ); ?>" />
                             <?php
                         } else {
+                            $multiple =  isset( $field['meta'] ) && isset( $field['meta']['multiple_search'] ) && 'yes' === $field['meta']['multiple_search'] ? true : false;
                             $options = isset( $field['meta'] ) && isset( $field['meta']['options'] ) ? $field['meta']['options'] : array( __( 'No', 'pets' ), __( 'Yes', 'pets' ), );
-                            ?>
-                            <select id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>">
-                                <option value="all"><?php esc_html_e( 'All', 'pets' ); ?></option>
-		                        <?php
-		                        if ( $options ) {
-			                        foreach ( $options as $key => $option ) {
-			                            $value = 'checkbox' === $field['type'] ? $key : $option;
-				                        ?>
-                                        <option <?php selected( $selected, $value, true ); ?> value="<?php echo esc_attr( $value ); ?>"><?php echo $option; ?></option>
-				                        <?php
-			                        }
-		                        }
-		                        ?>
-                            </select>
-                            <?php
+                            if ( $multiple ) {
+                                foreach ( $options as $option ) {
+                                    $checked = false;
+                                    if ( is_array( $selected ) ) {
+	                                    $checked = in_array( $option, $selected, true );
+                                    }
+	                                ?>
+                                    <br/>
+                                    <label for="<?php echo esc_attr( $name ); ?>_<?php echo sanitize_title( $option ); ?>">
+                                        <input type="checkbox" name="<?php echo esc_attr( $name ); ?>[]" <?php checked( $checked, true, true ); ?> id="<?php echo esc_attr( $name ); ?>_<?php echo sanitize_title( $option ); ?>" value="<?php echo esc_attr( $option ); ?>" />
+                                        <?php echo esc_html( $option ); ?>
+                                    </label>
+	                                <?php
+                                }
+
+                            } else {
+	                            ?>
+                                <select id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>">
+                                    <option value="all"><?php esc_html_e( 'All', 'pets' ); ?></option>
+		                            <?php
+		                            if ( $options ) {
+			                            foreach ( $options as $key => $option ) {
+				                            $value = 'checkbox' === $field['type'] ? $key : $option;
+				                            ?>
+                                            <option <?php selected( $selected, $value, true ); ?>
+                                                    value="<?php echo esc_attr( $value ); ?>"><?php echo $option; ?></option>
+				                            <?php
+			                            }
+		                            }
+		                            ?>
+                                </select>
+	                            <?php
+                            }
                         }
                         ?>
                     </div>

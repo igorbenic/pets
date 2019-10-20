@@ -36,6 +36,10 @@
   margin: 0 auto;
   padding: 0 2em;
 }
+.pets-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
 .pets-grid:after {
   content: '';
   clear: both;
@@ -76,7 +80,7 @@
   .post-type-archive-pets .type-pets {
     width: 45%;
   }
-  .post-type-archive-pets .type-pets:not(:nth-child(2n+2)) {
+  .post-type-archive-pets .type-pets:not( :nth-child(2n+2)) {
     margin-right: 10%;
   }
 }
@@ -84,7 +88,7 @@
   .post-type-archive-pets .type-pets {
     width: 30%;
   }
-  .post-type-archive-pets .type-pets:not(:nth-child(3n+3)) {
+  .post-type-archive-pets .type-pets:not( :nth-child(3n+3)) {
     margin-right: 5%;
   }
 }

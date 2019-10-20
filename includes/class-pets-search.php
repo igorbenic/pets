@@ -87,14 +87,28 @@ class Search {
 					continue;
 				}
 
-				$meta = array(
-					'key'   => '_' . $field_slug,
-					'value' => $field_value,
-				);
-				$field_config = $fields_slugs[ $field_slug ];
-				if ( 'checkbox' === $field_config['type'] && absint( $field_value ) === 0 ) {
-					$meta['value'] = '';
-					$meta['compare'] = 'NOT EXISTS';
+				if ( is_array( $field_value ) ) {
+					$meta = array(
+						'relation' => 'OR',
+					);
+					foreach ( $field_value as $value ) {
+						$meta[] = array(
+							'key'   => '_' . $field_slug,
+							'value' => $value,
+						);
+					}
+				} else {
+
+					$meta         = array(
+						'key'   => '_' . $field_slug,
+						'value' => $field_value,
+					);
+					$field_config = $fields_slugs[ $field_slug ];
+
+					if ( 'checkbox' === $field_config['type'] && absint( $field_value ) === 0 ) {
+						$meta['value']   = '';
+						$meta['compare'] = 'NOT EXISTS';
+					}
 				}
 
 				$meta_query[] = $meta;

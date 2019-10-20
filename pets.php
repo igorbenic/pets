@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         0.5.1
+ * Version:         1.0.0
  *
  * @package         Pets
  */
@@ -56,7 +56,7 @@ final class Pets {
      * Version
      * @var string
      */
-    public $version = '0.5.1';
+    public $version = '1.0.0';
 
     /**
      * Run everything
@@ -118,6 +118,7 @@ final class Pets {
 	 */
 	public function include_integrations() {
     	include_once 'includes/integrations/class-give.php';
+		include_once 'includes/integrations/class-petfinder.php';
 	}
 
 	/**
