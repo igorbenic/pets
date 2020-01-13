@@ -1,26 +1,25 @@
 <?php
 /**
- * Widget for showing a single pet.
+ * Widget for adding a missing pet.
  */
 
 namespace Pets\Widgets;
-use \Pets\Pet;
 
 /**
  * Class Single_Pet
  *
  * @package Pets\Widgets
  */
-class Search extends \WP_Widget {
+class Add_Missing extends \WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
 	 */
 	function __construct() {
 		parent::__construct(
-			'pets_search', // Base ID
-			esc_html__( 'Pet Search', 'pets' ), // Name
-			array( 'description' => esc_html__( 'Search form for pets.', 'pets' ), ) // Args
+			'pets_add_missing', // Base ID
+			esc_html__( 'Pet - Add Missing', 'pets' ), // Name
+			array( 'description' => esc_html__( 'Form to add missing pets', 'pets' ), ) // Args
 		);
 	}
 
@@ -39,7 +38,7 @@ class Search extends \WP_Widget {
 		}
 
 		echo '<div class="pets-widget-form">';
-		pets_locate_template( 'search-form.php', true, false );
+		pets_locate_template( 'missing-form.php', true, false );
 		echo '</div>';
 
 		echo $args['after_widget'];
@@ -53,7 +52,7 @@ class Search extends \WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 */
 	public function form( $instance ) {
-		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'A Pet', 'pets' );
+		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Report a missing Pet', 'pets' );
 		?>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_attr_e( 'Title:', 'pets' ); ?></label>
@@ -76,7 +75,7 @@ class Search extends \WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance          = array();
-		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : esc_html__( 'Search Pets', 'pets' );;
+		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : esc_html__( 'Report a Pet', 'pets' );;
 		return $instance;
 	}
 

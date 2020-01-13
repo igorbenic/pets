@@ -156,6 +156,16 @@ class Settings {
 	    }
 
     	switch ( $field['type'] ) {
+		    case 'description':
+			    $html  = '<tr class="pets-field">';
+			    $html .= '<td colspan="2">';
+			    $html .= '<p class="description"">';
+			    $html .= $args['title'];
+			    $html .= '</p>';
+			    $html .= '</td>';;
+			    $html .= '</tr>';
+			    echo $html;
+			    break;
 		    case 'text':
 			    $html  = '<tr class="pets-field">';
 			    $html .= '<th>';
@@ -271,6 +281,11 @@ class Settings {
 				),
                 'location_search' => array(
 	                'title' => __( 'Location in Search?', 'pets' ),
+	                'type'  => 'checkbox',
+	                'default' => '0'
+                ),
+                'show_missing' => array(
+	                'title' => __( 'Show Missing Pets in Search?', 'pets' ),
 	                'type'  => 'checkbox',
 	                'default' => '0'
                 )

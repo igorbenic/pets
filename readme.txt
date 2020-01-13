@@ -2,8 +2,8 @@
 Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
-Tested up to: 5.2.4
-Stable tag: 1.0.0
+Tested up to: 5.3.1
+Stable tag: 1.1.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -35,7 +35,7 @@ Shortcodes:
 [pets_single id=0 image=true info=true] (Set image or info to false)
 
 
-[pets_petfinder] - Show the Petfinder search from and animals
+[pets_petfinder] - Show the Petfinder search from and animals. Check https://www.petfinder.com/developers/v2/docs/#get-animals for all attributes.
 
 
 Roadmap (planned features):
@@ -67,7 +67,15 @@ Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
 
-= 1.0.0 - 2019-09-XX =
+= 1.1.0 - 2019-09-20 =
+- New: Widget: Pet - Add Missing. You can now show a widget for reporting missing pets.
+- New: Show Missing in Search option - Show all reported missing pets in the search as well.
+- New: Missing Post Status. When viewing pets in the admin area, you will see "Missing Pet" state next to it.
+- New: Bulk Action - "Set to Missing" - for Pets to set them to missing in the admin area.
+- New: Bulk Action - "Set to Published" - for Pets to set them to published if they were missing and found.
+- New: PetFinder shortcode attributes.
+
+= 1.0.0 - 2019-09-20 =
 - New: Dropdown and Radio fields can be multiselected when searching.
 - New: PetFinder integration. Add keys under Settings and a [pets_petfinder] shortcode in a page.
 

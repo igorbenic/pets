@@ -42,9 +42,34 @@ class Shortcodes {
 	 */
 	public function petfinder( $args ) {
 
+		$atts = shortcode_atts(
+			array(
+				'organization'       => '',
+				'type'               => '',
+				'breed'              => '',
+				'size'               => '',
+				'gender'             => '',
+				'age'                => '',
+				'color'              => '',
+				'coat'               => '',
+				'status'             => '',
+				'name'               => '',
+				'good_with_children' => '',
+				'good_with_dogs'     => '',
+				'good_with_cats'     => '',
+				'location'           => '',
+				'distance'           => '',
+				'before'             => '',
+				'sort'               => '',
+				'limit'              => 20,
+			),
+			$args,
+			'pets_petfinder'
+		);
+
 		ob_start();
 
-		pets_locate_template( 'shortcode/petfinder.php', true );
+		include pets_get_template_part( 'shortcode/petfinder', null, false );
 
 		return ob_get_clean();
 	}

@@ -5,7 +5,8 @@
 
 use Pets\DB\Fields;
 
-$form_action = isset( $form_action ) ? $form_action : get_post_type_archive_link( 'pets' );
+$form_action   = isset( $form_action ) ? $form_action : get_post_type_archive_link( 'pets' );
+$show_statuses = isset( $show_statuses ) ? $show_statuses : true; // It will be used to show statuses of pets (published|Missing)
 
 $breeds         = get_terms( array(
 	'taxonomy'   => 'breed',
@@ -24,6 +25,7 @@ $location_search = absint( pets_get_setting( 'location_search', 'general', '0' )
 $pet_fields_db = new Fields();
 $pet_fields    = $pet_fields_db->get_all();
 $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searchable' ) );
+//$post_statuses = wp_count_posts( 'pets' );
 
 ?>
 <form class="pets-search-form" method="GET" action="<?php echo $form_action; ?>">
@@ -171,6 +173,7 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
         </div>
         <?php
     }
+
     ?>
     <button type="submit" class="button"><?php esc_html_e( 'Search Pets', 'pets' ); ?></button>
 </form>

@@ -152,7 +152,7 @@ function pets_get_theme_template_paths() {
 	$file_paths = array(
 		1   => trailingslashit( get_stylesheet_directory() ) . $template_dir,
 		10  => trailingslashit( get_template_directory() ) . $template_dir,
-		100 => PETS_PATH . '/templates',
+		100 => trailingslashit(PETS_PATH ) . 'templates',
 	);
 
 	$file_paths = apply_filters( 'pets_template_paths', $file_paths );

@@ -124,6 +124,22 @@ class CPT {
 
         $this->register_sponsors();
         $this->register_locations();
+        $this->register_pet_statuses();
+    }
+
+	/**
+	 * Register Pet Statuses
+	 */
+    public function register_pet_statuses() {
+	    register_post_status( 'missing', array(
+		    'label'                     => _x( 'Missing', 'pet' ),
+		    'public'                    => true,
+		    'exclude_from_search'       => false,
+		    'show_in_admin_all_list'    => true,
+		    'show_in_admin_status_list' => true,
+		    'label_count'               => _n_noop( 'Missing <span class="count">(%s)</span>', 'Missing <span class="count">(%s)</span>' ),
+
+	    ) );
     }
 
 	/**

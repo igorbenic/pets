@@ -113,6 +113,10 @@ class PetFinder {
 				'type'    => 'text',
 				'title'   => __( 'Petfinder Organization ID', 'pets' ),
 			),
+			'petfinder_shortcode_atts'   => array(
+				'type'    => 'description',
+				'title'   => sprintf( '<a target="_blank" href="https://www.petfinder.com/developers/v2/docs/#get-animals">%s</a>', __( 'To Check all shortcode Atts, visit this link.', 'pets' ) ),
+			),
 		);
 		return $settings;
 	}

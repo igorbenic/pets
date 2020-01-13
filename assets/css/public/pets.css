@@ -189,3 +189,36 @@
 .pets-section-title img {
   margin-right: 10px;
 }
+.pet-header {
+  position: relative;
+}
+.pet-header .pet-missing {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  display: inline-block;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  text-transform: uppercase;
+  background: #ff6e15;
+  color: white;
+}
+.pets-errors {
+  margin: 0 0 20px 0;
+  list-style: none;
+}
+.pets-errors .pets-error {
+  padding: 10px;
+  background: #ff6e15;
+  color: white;
+}
+.pets-notices {
+  margin: 0 0 20px 0;
+  list-style: none;
+}
+.pets-notices .pets-notice {
+  padding: 10px;
+  background: #61ce70;
+  color: white;
+}

@@ -4,10 +4,19 @@
  */
 
 $form_action = get_permalink();
+$show_statuses = false;
 
 $pets_search = isset( $_GET['pets_search'] ) ? $_GET['pets_search'] : array();
 $location    = isset( $_GET['pet-locations'] ) ? $_GET['pet-locations'] : 0;
 $search_page = isset( $_GET['search-page'] ) ? $_GET['search-page'] : 1;
+
+$organization_id = pets_get_setting( 'petfinder_organization_id', 'petfinder', '' );
+
+if ( $organization_id ) {
+	$pets_search['organization'] = $organization_id;
+}
+
+$pets_search = array_merge( $pets_search, $atts );
 
 if ( $location ) {
 	$pets_search['location'] = $location;
@@ -21,11 +30,7 @@ foreach ( $pets_search as $slug => $value ) {
 	}
 }
 
-$organization_id = pets_get_setting( 'petfinder_organization_id', 'petfinder', '' );
-
-if ( $organization_id ) {
-	$pets_search['organization'] = $organization_id;
-}
+$pets_search = array_filter( $pets_search );
 
 $animals      = Pets\Integrations\PetFinder::get( 'animals', $pets_search );
 $total_pages  = 1;
@@ -33,6 +38,7 @@ $current_page = 1;
 ?>
 <div class="pets-petfinder-search post-type-archive-pets">
 	<?php
+
 	include pets_locate_template( 'search-form.php', false );
 
 	do_action( 'pets_before_loop_while' );

@@ -117,5 +117,15 @@ class Search {
 				$query->set( 'meta_query', $meta_query );
 			}
 		}
+
+
+		$show_missing = absint( pets_get_setting( 'show_missing', 'general', '0' ) ) ? true : false;
+
+		if ( $show_missing ) {
+			$query->set( 'post_status', array( 'publish', 'missing' ) );
+		} else {
+			$query->set( 'post_status', array( 'publish' ) );
+
+		}
 	}
 }

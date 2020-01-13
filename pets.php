@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         1.0.0
+ * Version:         1.1.0
  *
  * @package         Pets
  */
@@ -56,7 +56,7 @@ final class Pets {
      * Version
      * @var string
      */
-    public $version = '1.0.0';
+    public $version = '1.1.0';
 
     /**
      * Run everything
@@ -88,6 +88,7 @@ final class Pets {
 	    include_once 'includes/class-pets-pet.php';
 	    include_once 'includes/class-pets-widgets.php';
 	    include_once 'includes/class-pets-installer.php';
+	    include_once 'includes/class-pets-missing.php';
 
 	    // Settings Class.
 	    include_once 'includes/admin/settings/class-settings.php';
@@ -95,6 +96,7 @@ final class Pets {
 
 	    include_once 'includes/widgets/class-widgets-single-pet.php';
 	    include_once 'includes/widgets/class-widgets-search.php';
+	    include_once 'includes/widgets/class-widgets-add-missing.php';
 
 	    include_once 'includes/functions-templates.php';
 	    include_once 'includes/functions-upgrades.php';
@@ -148,6 +150,7 @@ final class Pets {
         	$template = new Pets_Template();
         	$template->init();
         	new Shortcodes();
+        	new Missing();
         }
     }
 

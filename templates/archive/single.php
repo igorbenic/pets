@@ -17,6 +17,11 @@
             </div>
         </a>
 		<?php the_title( '<a href="' . get_permalink() . '"><h3 class="pet-title">', '</h3></a>' ); ?>
+        <?php
+            if ( get_post_status() === 'missing' ) {
+                echo '<span class="pet-missing">' . __( 'Missing', 'pets' ) . '</span>';
+            }
+        ?>
 	</header>
 	<section class="pet-content">
 		<?php the_content(); ?>
