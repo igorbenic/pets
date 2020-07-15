@@ -75,6 +75,7 @@ Make sure you have set the donation form under Pets > Settings > Give.
 - New: Actions on each missing or new pet added.
 - Fix: Missing Pet image could not be added.
 - Fix: GiveWP Form on a single pet page would load multiple forms.
+- Update: License Software
 
 = 1.1.0 - 2019-09-20 =
 - New: Widget: Pet - Add Missing. You can now show a widget for reporting missing pets.
