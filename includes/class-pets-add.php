@@ -14,7 +14,7 @@ namespace Pets;
  *
  * @package Pets
  */
-class Missing {
+class Add {
 
 	/**
 	 * Errors
@@ -32,10 +32,10 @@ class Missing {
 	public $notices = array();
 
 	public function __construct() {
-		add_action( 'pets_missing_form_before_fields', array( $this, 'show_errors' ) );
-		add_action( 'pets_missing_form_before_fields', array( $this, 'show_notices' ) );
+		add_action( 'pets_add_form_before_fields', array( $this, 'show_errors' ) );
+		add_action( 'pets_add_form_before_fields', array( $this, 'show_notices' ) );
 
-	    add_action( 'init', array( $this, 'maybe_add_missing_pet' ) );
+		add_action( 'init', array( $this, 'maybe_add_a_new_pet' ) );
 	}
 
 	/**
@@ -79,12 +79,12 @@ class Missing {
 	/**
 	 * Maybe submit a missing Pet.
 	 */
-	public function maybe_add_missing_pet() {
-		if ( ! isset( $_POST['pets_missing_nonce'] ) ) {
+	public function maybe_add_a_new_pet() {
+		if ( ! isset( $_POST['pets_add_nonce'] ) ) {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['pets_missing_nonce'], 'wp-add-missing-pets' ) ) {
+		if ( ! wp_verify_nonce( $_POST['pets_add_nonce'], 'wp-add-new-pets' ) ) {
 			die();
 		}
 
@@ -106,7 +106,7 @@ class Missing {
 			'post_type'    => 'pets',
 			'post_title'   => $name,
 			'post_content' => $info,
-			'post_status'  => 'missing'
+			'post_status'  => pets_get_setting( 'new_pet_status', 'general', 'draft' )
 		));
 
 		if ( is_wp_error( $pet_id ) ) {
@@ -130,6 +130,6 @@ class Missing {
 			}
 		}
 
-		do_action( 'pets_missing_pet_added', $pet_id, $_POST );
+		do_action( 'pets_new_pet_added', $pet_id, $_POST );
 	}
 }

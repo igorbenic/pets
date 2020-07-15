@@ -34,7 +34,8 @@ class Widgets {
 		return apply_filters( 'pets_get_widgets', array(
 			'\Pets\Widgets\Single_Pet',
 			'\Pets\Widgets\Search',
-			'\Pets\Widgets\Add_Missing'
+			'\Pets\Widgets\Add_Missing',
+			'\Pets\Widgets\Add',
 		) );
 	}
 }

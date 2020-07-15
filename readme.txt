@@ -2,8 +2,8 @@
 Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
-Tested up to: 5.3.1
-Stable tag: 1.1.0
+Tested up to: 5.4.2
+Stable tag: 1.2.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -66,6 +66,15 @@ You're welcome to give your own ideas and features in the support forum.
 Make sure you have set the donation form under Pets > Settings > Give.
 
 == Changelog ==
+
+= 1.2.0 - 2020-07-15 =
+- New: Add a Pet Form which will always add a new pet.
+- New: Setting to define which default status a new pet will be added to.
+- New: Setting to email about any new missing pet added.
+- New: Setting to email about any new pet added.
+- New: Actions on each missing or new pet added.
+- Fix: Missing Pet image could not be added.
+- Fix: GiveWP Form on a single pet page would load multiple forms.
 
 = 1.1.0 - 2019-09-20 =
 - New: Widget: Pet - Add Missing. You can now show a widget for reporting missing pets.

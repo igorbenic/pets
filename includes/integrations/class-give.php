@@ -32,7 +32,7 @@ class Give {
 	 * @return mixed
 	 */
 	public function add_pet_donation_link( $content ) {
-
+		remove_filter( 'the_content', array( $this, 'add_pet_donation_link' ), 99 );
 		if ( is_singular( 'pets' ) ) {
 			$form_id = pets_get_setting( 'form_id', 'give', 0 );
 
@@ -54,6 +54,7 @@ class Give {
 				$content .= '<a href="' . $link . '" class="button">' . sprintf( __( 'Donate for %s', 'pets' ), get_the_title() ) . '</a>';
 			}
 		}
+		add_filter( 'the_content', array( $this, 'add_pet_donation_link' ), 99 );
 		return $content;
 	}
 
@@ -259,7 +260,9 @@ class Give {
 				</p>
 				<p class="form-row form-row-last form-row-responsive">
 					<strong><?php echo get_the_title( $single_pet ); ?></strong><br/>
-					<?php echo get_the_excerpt( $single_pet ); ?>
+					<?php
+						echo get_the_excerpt( $single_pet );
+					?>
 				</p>
 				<?php } ?>
 			</fieldset>

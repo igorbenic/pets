@@ -12,6 +12,7 @@ $breeds         = get_terms( array(
 	'taxonomy'   => 'breed',
 	'hide_empty' => false,
 ) );
+$breeds_hierarchy = array();
 $selected_breed = isset( $_REQUEST['breed'] ) ? sanitize_text_field( $_REQUEST['breed'] ) : '';
 
 $colors         = get_terms( array(
@@ -30,11 +31,14 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
 ?>
 <form class="pets-search-form" method="GET" action="<?php echo $form_action; ?>">
     <?php
-
     if ( $breeds || $colors || $location_search ) {
         ?>
         <div class="fieldset">
-        <?php if ( $breeds ) { ?>
+        <?php
+		if ( $breeds ) {
+
+			pets_sort_terms_hierarchically( $breeds, $breeds_hierarchy );
+        	?>
         <div class="search-field">
             <label for="pets_breed">
 				<?php echo esc_html_e( 'Breed', 'pets' ); ?>
@@ -42,12 +46,8 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
             <select id="pets_breed" name="breed">
                 <option value="0"><?php esc_html_e( 'All Breeds', 'pets' ); ?></option>
 				<?php
-
-					foreach ( $breeds as $breed ) {
-						?>
-                        <option <?php selected( $selected_breed, $breed->slug, true ); ?>
-                                value="<?php echo esc_attr( $breed->slug ); ?>"><?php echo $breed->name; ?></option>
-						<?php
+					foreach ( $breeds_hierarchy as $breed_item ) {
+						pets_recursive_terms_as_options( $breed_item, $selected_breed );
 					}
 
 				?>

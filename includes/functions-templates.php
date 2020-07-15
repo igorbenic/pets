@@ -228,3 +228,43 @@ function pets_before_loop_while() {
 function pets_after_loop_while() {
 	pets_locate_template( 'after-loop-while.php', true );
 }
+
+/**
+ * Sort Terms with children
+ *
+ * @param array $cats
+ * @param array $into
+ * @param int   $parent
+ */
+function pets_sort_terms_hierarchically(&$cats, &$into, $parent = 0) {
+	foreach ($cats as $i => $cat) {
+		if ($cat->parent == $parent) {
+			$into[$cat->term_id] = $cat;
+			unset($cats[$i]);
+		}
+	}
+
+	foreach ($into as $topCat) {
+		$topCat->children = array();
+		pets_sort_terms_hierarchically($cats, $topCat->children, $topCat->term_id);
+	}
+}
+
+/**
+ * @param        $term
+ * @param        $selected
+ * @param string $separator
+ */
+function pets_recursive_terms_as_options( $term, $selected, $separator = '' ) {
+	?>
+	<option <?php selected( $selected, $term->slug, true ); ?>
+		value="<?php echo esc_attr( $term->slug ); ?>"><?php echo $separator . $term->name; ?></option>
+	<?php
+
+	if ( ! empty( $term->children ) ) {
+		$separator = trim( $separator ) . '- ';
+		foreach( $term->children as $child ) {
+			pets_recursive_terms_as_options( $child, $selected, $separator );
+		}
+	}
+}

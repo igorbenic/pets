@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         1.1.0
+ * Version:         1.2.0
  *
  * @package         Pets
  */
@@ -56,11 +56,11 @@ final class Pets {
      * Version
      * @var string
      */
-    public $version = '1.1.0';
+    public $version = '1.2.0';
 
     /**
      * Run everything
-     * @return void 
+     * @return void
      */
     public function run() {
         $this->define_constants();
@@ -77,7 +77,7 @@ final class Pets {
 
     /**
      * Including files
-     * @return void 
+     * @return void
      */
     private function includes() {
         include_once 'includes/class-pets-cpt.php';
@@ -89,6 +89,8 @@ final class Pets {
 	    include_once 'includes/class-pets-widgets.php';
 	    include_once 'includes/class-pets-installer.php';
 	    include_once 'includes/class-pets-missing.php';
+	    include_once 'includes/class-pets-add.php';
+	    include_once 'includes/class-pets-emails.php';
 
 	    // Settings Class.
 	    include_once 'includes/admin/settings/class-settings.php';
@@ -97,6 +99,7 @@ final class Pets {
 	    include_once 'includes/widgets/class-widgets-single-pet.php';
 	    include_once 'includes/widgets/class-widgets-search.php';
 	    include_once 'includes/widgets/class-widgets-add-missing.php';
+	    include_once 'includes/widgets/class-widgets-add.php';
 
 	    include_once 'includes/functions-templates.php';
 	    include_once 'includes/functions-upgrades.php';
@@ -151,12 +154,14 @@ final class Pets {
         	$template->init();
         	new Shortcodes();
         	new Missing();
+        	new Add();
+        	New Pets_Emails();
         }
     }
 
     /**
      * Action/Filters Hooks
-     * @return void 
+     * @return void
      */
     private function hooks() {
         $cpt     = new CPT();
@@ -214,7 +219,7 @@ final class Pets {
 
 /**
  * Starting our plugin
- * @return void 
+ * @return void
  */
 function run() {
     $pets = new Pets();

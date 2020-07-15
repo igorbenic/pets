@@ -10,7 +10,7 @@ class Settings {
 
     /**
      * Including the Settings Page
-     * @return void 
+     * @return void
      */
     public function page() {
         include 'views/main.php';
@@ -18,7 +18,7 @@ class Settings {
 
     /**
      * Loading Settings
-     * @return void 
+     * @return void
      */
     public function load() {
         include 'class-settings-fields.php';
@@ -77,7 +77,7 @@ class Settings {
 
     /**
      * Main Settings Page
-     * @return void 
+     * @return void
      */
     public function settings_page() {
     	$this->save_settings();
@@ -148,6 +148,7 @@ class Settings {
 			'value'   => '',
 			'name'    => '',
 			'id'      => '',
+			'desc'    => '',
 		);
 	    $args = wp_parse_args( $field, $defaults );
 
@@ -175,6 +176,9 @@ class Settings {
 			    $html .= '</th>';
 			    $html .= '<td>';
 			    $html .= '<input class="widefat" name="' . $this->get_field_name( $field, $tab ) . '" id="' . $args['id'] . '" type="text" value="' . esc_attr( $args['value'] ) . '"/>';
+			    if ( $args['desc'] ) {
+			    	$html .= '<p class="description">' . $args['desc'] . '</p>';
+				}
 			    $html .= '</td>';
 			    $html .= '</tr>';
 			    echo $html;
@@ -188,7 +192,10 @@ class Settings {
 			    $html .= '</th>';
 			    $html .= '<td>';
 			    $html .= '<textarea class="widefat" name="' . $this->get_field_name( $field, $tab ) . '" rows="5" id="' . $args['id'] . '">' . $args['value'] . '</textarea>';
-			    $html .= '</td>';
+				if ( $args['desc'] ) {
+					$html .= '<p class="description">' . $args['desc'] . '</p>';
+				}
+				$html .= '</td>';
 			    $html .= '</tr>';
 			    echo $html;
 			    break;
@@ -207,7 +214,10 @@ class Settings {
 				    }
 			    }
 			    $html .= '</select>';
-			    $html .= '</td>';
+				if ( $args['desc'] ) {
+					$html .= '<p class="description">' . $args['desc'] . '</p>';
+				}
+				$html .= '</td>';
 			    $html .= '</tr>';
 			    echo $html;
 			    break;
@@ -226,7 +236,10 @@ class Settings {
 					    $html .= '<br/></label>';
 				    }
 			    }
-			    $html .= '</td>';
+				if ( $args['desc'] ) {
+					$html .= '<p class="description">' . $args['desc'] . '</p>';
+				}
+				$html .= '</td>';
 			    $html .= '</tr>';
 			    echo $html;
 			    break;
@@ -239,7 +252,10 @@ class Settings {
 			    $html .= '</th>';
 			    $html .= '<td>';
 			    $html .= '<input id="' . $args['id'] . '" name="' . $this->get_field_name( $field, $tab ) . '" type="checkbox" value="1" ' . checked( '1', $args['value'], false ) . '>';
-			    $html .= '</td>';
+				if ( $args['desc'] ) {
+					$html .= '<p class="description">' . $args['desc'] . '</p>';
+				}
+				$html .= '</td>';
 			    $html .= '</tr>';
 			    echo $html;
 			    break;
@@ -288,7 +304,29 @@ class Settings {
 	                'title' => __( 'Show Missing Pets in Search?', 'pets' ),
 	                'type'  => 'checkbox',
 	                'default' => '0'
-                )
+                ),
+				'notify_on_missing_emails' => array(
+					'title' => __( 'Notify on a new Missing Pet', 'pets' ),
+					'type'  => 'text',
+					'default' => '',
+					'desc'    => __( 'Enter emails separated by comma to notify', 'pets' ),
+				),
+				'notify_on_new_emails' => array(
+					'title' => __( 'Notify on a new Pet', 'pets' ),
+					'type'  => 'text',
+					'default' => '',
+					'desc'    => __( 'Enter emails separated by comma to notify', 'pets' ),
+				),
+				'new_pet_status' => array(
+					'title' => __( 'New Pet Status', 'pets' ),
+					'desc'  => __( 'Status to be assigned when a new pet is added through form', 'pets' ),
+					'type'  => 'select',
+					'options' => array(
+						'publish' => __( 'Publish', 'pets' ),
+						'draft'   => __( 'Draft', 'pets' ),
+					),
+					'default' => 'draft'
+				),
 			),
             'sponsors' => array(
                 'show_sponsors' => array(
