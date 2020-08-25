@@ -6,6 +6,7 @@
 $form_action = get_permalink();
 $show_statuses = false;
 
+$breed       = isset( $_GET['breed'] ) ? $_GET['breed'] : '';
 $pets_search = isset( $_GET['pets_search'] ) ? $_GET['pets_search'] : array();
 $location    = isset( $_GET['pet-locations'] ) ? $_GET['pet-locations'] : 0;
 $search_page = isset( $_GET['search-page'] ) ? $_GET['search-page'] : 1;
@@ -16,19 +17,37 @@ if ( $organization_id ) {
 	$pets_search['organization'] = $organization_id;
 }
 
-$pets_search = array_merge( $pets_search, $atts );
+$pets_search = wp_parse_args( $pets_search, $atts );
 
 if ( $location ) {
 	$pets_search['location'] = $location;
 }
 
+if ( $breed ) {
+	$pets_search['breed'] = $breed;
+}
+
 $pets_search['page'] = $search_page;
 
 foreach ( $pets_search as $slug => $value ) {
+	if ( 'adoptable' === $slug ) {
+		if ( absint( $value ) ) {
+			$pets_search[ $slug ] = 'adoptable';
+		}
+		continue;
+	}
+
 	if ( is_array( $value ) ) {
 		$pets_search[ $slug ] = implode( ',', $value );
 	}
+
+	if ( 'name' !== $slug ) {
+		$pets_search[ $slug ] = strtolower( $pets_search[ $slug ] );
+	}
+
 }
+
+
 
 $pets_search = array_filter( $pets_search );
 

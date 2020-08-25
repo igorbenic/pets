@@ -100,6 +100,8 @@ class PetFinder {
 	 * @param array $settings
 	 */
 	public function add_settings( $settings ) {
+
+
 		$settings['petfinder'] = array(
 			'petfinder_api_key'   => array(
 				'type'    => 'text',
@@ -117,8 +119,29 @@ class PetFinder {
 				'type'    => 'description',
 				'title'   => sprintf( '<a target="_blank" href="https://www.petfinder.com/developers/v2/docs/#get-animals">%s</a>', __( 'To Check all shortcode Atts, visit this link.', 'pets' ) ),
 			),
+			'petfinder_shortcode_example'   => array(
+				'type'    => 'description',
+				'title'   => $this->get_field_examples(),
+			),
 		);
 		return $settings;
+	}
+
+	public function get_field_examples() {
+		ob_start();
+		?>
+		<p>Please make sure to create the fields under Pets > Fields to match the Petfinder attributes found on <a href="https://www.petfinder.com/developers/v2/docs/#get-animals" target="_blank">https://www.petfinder.com/developers/v2/docs/#get-animals</a>.</p>
+
+		<p>For example, for attribute status, create a field:</p>
+		<ul>
+			<li>Name: Status (or any other)</li>
+			<li>slug: status (Important to be the same as attribute on Petfinder)</li>
+			<li>type: dropdown</li>
+			<li>options: Adoptable, Found, Adopted</li>
+		</ul>
+		<?php
+
+		return ob_get_clean();
 	}
 }
 

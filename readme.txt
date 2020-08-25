@@ -2,8 +2,8 @@
 Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
-Tested up to: 5.4.2
-Stable tag: 1.2.0
+Tested up to: 5.5.0
+Stable tag: 1.2.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -65,7 +65,21 @@ You're welcome to give your own ideas and features in the support forum.
 
 Make sure you have set the donation form under Pets > Settings > Give.
 
+= Petfinder Search Form does not work =
+
+Please make sure to create the fields under Pets > Fields to match the Petfinder attributes found on https://www.petfinder.com/developers/v2/docs/#get-animals.
+
+For example, for attribute status, create a field:
+
+- Name: Status (or any other)
+- slug: status (Important to be the same as attribute on Petfinder)
+- type: dropdown
+- options: Adoptable, Found, Adopted
+
 == Changelog ==
+
+= 1.2.1 - 2020-08-26 =
+* Fix: Petfinder search form fixed and FAQ added
 
 = 1.2.0 - 2020-07-15 =
 - New: Add a Pet Form which will always add a new pet.
