@@ -23,6 +23,7 @@ class Pets_Installer {
 	public $updates = array(
 		'0.3.0' => 'pets_upgrade_030',
 		'0.5.0' => 'pets_upgrade_050',
+		'1.3.0' => 'pets_upgrade_130',
 	);
 
 	/**

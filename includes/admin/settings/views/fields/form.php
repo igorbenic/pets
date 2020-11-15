@@ -39,6 +39,10 @@ if ( ! isset( $field['searchable'] ) ) {
     $field['searchable'] = 0;
 }
 
+if ( ! isset( $field['forms'] ) ) {
+	$field['forms'] = 0;
+}
+
 $multiple_search = isset( $field['meta'] ) && isset( $field['meta']['multiple_search'] ) && 'yes' === $field['meta']['multiple_search'] ? 1 : 0;
 
 ?>
@@ -77,6 +81,13 @@ $multiple_search = isset( $field['meta'] ) && isset( $field['meta']['multiple_se
 	            <?php esc_html_e( 'If searchable, allow multiple selection in the search form. Works for fields with options (Radio, Dropdown).', 'pets' ); ?>
             </label>
         </div>
+		<div class="field">
+			<label for="pets_field_forms"><?php esc_html_e( 'Forms?', 'pets' ); ?></label>
+			<input <?php checked( $field['forms'], 1, true ); ?> class="widefat" type="checkbox" name="pets_field_forms" id="pets_field_forms"
+																	  value="yes" />
+			<p class="description"><?php esc_html_e( 'If checked, it will appear in the forms (Add & Add Missing widgets).', 'pets' ); ?></p>
+
+		</div>
         <div class="field">
             <label for="pets_field_sections"><?php esc_html_e( 'Sections', 'pets' ); ?></label>
             <select class="widefat" name="pets_field_sections" id="pets_field_sections">

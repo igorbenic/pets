@@ -126,14 +126,14 @@ class Fields {
 	/**
 	 * @param $post_id
 	 */
-	public static function save_fields( $post_id ) {
+	public static function save_fields( $post_id, $data = array() ) {
 		$fields_db = new \Pets\DB\Fields();
 		$fields    = $fields_db->get_all();
 
 		foreach ( $fields as $field ) {
 			$name = 'pets_field_' . $field['slug'];
-			if ( isset( $_POST[ $name ] ) ) {
-				update_post_meta( $post_id, '_' . $field['slug'], $_POST[ $name ] );
+			if ( isset( $data[ $name ] ) ) {
+				update_post_meta( $post_id, '_' . $field['slug'], $data[ $name ] );
 			} else {
 				if ( 'checkbox' === $field['type'] ) {
 					delete_post_meta( $post_id, '_' . $field['slug'] );
@@ -303,6 +303,18 @@ class Fields {
 	public static function only_searchable( $item ) {
 		return absint( $item['searchable'] ) === 1;
 	}
+
+	/**
+	 * Returning true only for items to show in forms. Used in array_filter.
+	 *
+	 * @param $item
+	 *
+	 * @return bool
+	 */
+	public static function only_forms( $item ) {
+		return absint( $item['forms'] ) === 1;
+	}
+
 
 	/**
 	 * Get Cached Fields from DB.

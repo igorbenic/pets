@@ -114,7 +114,7 @@ class Add {
 			return;
 		}
 
-		$this->notices[] = __( 'Missing Pet was added', 'pets' );
+		$this->notices[] = __( 'Pet was added', 'pets' );
 
 		if ( isset( $_FILES['pets_image'] ) && $_FILES['pets_image']['name'] ) {
 			require_once( ABSPATH . 'wp-admin/includes/image.php' );
@@ -128,6 +128,10 @@ class Add {
 			} else {
 				update_post_meta( $pet_id, '_thumbnail_id', $attachment_id );
 			}
+		}
+
+		if ( isset( $_POST['new_pets_fields'] ) ) {
+			Fields::save_fields($pet_id, $_POST );
 		}
 
 		do_action( 'pets_new_pet_added', $pet_id, $_POST );

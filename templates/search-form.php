@@ -22,12 +22,22 @@ $colors         = get_terms( array(
 $selected_color = isset( $_REQUEST['pet-color'] ) ? sanitize_text_field( $_REQUEST['pet-color'] ) : '';
 
 $location_search = absint( pets_get_setting( 'location_search', 'general', '0' ) ) ? true : false;
-
+$locations = array();
+if ( $location_search ) {
+	$locations = get_terms( array(
+		'taxonomy'   => 'pet-locations',
+		'hide_empty' => true,
+	) );
+	$location_search = $locations ? true : false;
+}
 $pet_fields_db = new Fields();
 $pet_fields    = $pet_fields_db->get_all();
 $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searchable' ) );
-//$post_statuses = wp_count_posts( 'pets' );
+$show_form     = apply_filters( 'pets_show_search_form', $breeds || $colors || $location_search || $pet_fields );
 
+if ( ! $show_form ) {
+	return;
+}
 ?>
 <form class="pets-search-form" method="GET" action="<?php echo $form_action; ?>">
     <?php
@@ -77,10 +87,7 @@ $pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_searcha
         <?php } ?>
         <?php
         if ( $location_search ) {
-	        $locations         = get_terms( array(
-		        'taxonomy'   => 'pet-locations',
-		        'hide_empty' => true,
-	        ) );
+
 	        $selected_location = isset( $_REQUEST['pet-locations'] ) ? sanitize_text_field( $_REQUEST['pet-locations'] ) : '';
 
 	        ?>

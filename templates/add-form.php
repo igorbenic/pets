@@ -3,6 +3,9 @@
  * The add form for pets.
  */
 
+$pet_fields_db = new \Pets\DB\Fields();
+$pet_fields    = $pet_fields_db->get_all();
+$pet_fields    = array_filter( $pet_fields, array( '\Pets\Fields', 'only_forms' ) );
 
 ?>
 <form class="pets-missing-form pets-search-form" method="POST" action="" enctype="multipart/form-data">
@@ -25,6 +28,19 @@
 		<label for="new_pets_image"><?php esc_html_e( 'Pet Image', 'pets' ); ?></label>
 		<input type="file" name="new_pets_image" accept="image/*" id="new_pets_image" />
 	</div>
+
+	<?php
+		if ( $pet_fields ) {
+			?>
+			<input type="hidden" name="new_pets_fields" value="1" />
+			<?php
+			foreach( $pet_fields as $field ) {
+
+				\Pets\Fields::render_field($field);
+			}
+
+		}
+	?>
 
 	<button type="submit" class="button"><?php esc_html_e( 'Add a Pet', 'pets' ); ?></button>
 </form>

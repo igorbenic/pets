@@ -37,7 +37,7 @@ class Settings_Fields {
 
     /**
      * Main Settings Page
-     * @return void 
+     * @return void
      */
     public function settings_page() {
         $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'fields';
@@ -103,7 +103,7 @@ class Settings_Fields {
     			?>
 			    <div class="notice error"><p><?php echo $error; ?></p></div>
 				<?php
-		    } 
+		    }
 	    }
 		$this->get_view( 'form.php' );
     }
@@ -157,6 +157,7 @@ class Settings_Fields {
 			$id      = isset( $_POST['pets_field_id'] ) ? absint( $_POST['pets_field_id'] ) : false;
 			$section = isset( $_POST['pets_field_sections'] ) ? absint( $_POST['pets_field_sections'] ) : 0;
 			$search  = isset( $_POST['pets_field_searchable'] ) ? 1 : 0;
+			$forms   = isset( $_POST['pets_field_forms'] ) ? 1 : 0;
 
 			$data = array(
                 'title'         => $title,
@@ -164,7 +165,8 @@ class Settings_Fields {
                 'type'          => $type,
                 'meta'          => $meta,
                 'field_section' => $section,
-                'searchable'    => $search
+                'searchable'    => $search,
+				'forms'         => $forms
             );
 
 			$pets_fields_db = new Fields();

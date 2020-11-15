@@ -16,7 +16,7 @@ class Admin {
 
     /**
      * Loading the Admin
-     * @return void 
+     * @return void
      */
     public function load() {
         add_action( 'admin_menu', array( $this, 'menus' ) );
@@ -59,7 +59,7 @@ class Admin {
 			return;
 		}
 
-		\Pets\Fields::save_fields( $post_id );
+		\Pets\Fields::save_fields( $post_id, $_POST );
     }
 
 	/**
@@ -74,20 +74,20 @@ class Admin {
      * @return void
      */
     public function menus() {
-        add_submenu_page( 
-            'edit.php?post_type=pets', 
-            __( 'Settings', 'pets' ), 
-            __( 'Settings', 'pets' ), 
-            'manage_options', 
+        add_submenu_page(
+            'edit.php?post_type=pets',
+            __( 'Settings', 'pets' ),
+            __( 'Settings', 'pets' ),
+            'manage_options',
             'pets-settings',
             array( $this, 'settings_page' )
         );
 
-        add_submenu_page( 
-            'edit.php?post_type=pets', 
-            __( 'Fields', 'pets' ), 
-            __( 'Fields', 'pets' ), 
-            'manage_options', 
+        add_submenu_page(
+            'edit.php?post_type=pets',
+            __( 'Fields', 'pets' ),
+            __( 'Fields', 'pets' ),
+            'manage_options',
             'pets-fields',
             array( $this, 'settings_page' )
         );
@@ -95,7 +95,7 @@ class Admin {
 
     /**
      * Main Settings
-     * @return void 
+     * @return void
      */
     public function settings_page() {
         $settings = new Settings();

@@ -20,7 +20,7 @@ class Fields extends DB {
 	 * @return string
 	 */
     protected static function get_schema() {
-    
+
         global $wpdb;
 
         $collate = '';
@@ -38,6 +38,7 @@ class Fields extends DB {
   meta TEXT,
   field_section BIGINT UNSIGNED,
   searchable TINYINT UNSIGNED,
+  forms TINYINT UNSIGNED,
   PRIMARY KEY  (id)
 ) $collate;";
 

@@ -14,7 +14,7 @@ class CPT {
 
     /**
      * Initialize Pets CPT
-     * @return void 
+     * @return void
      */
     public function init() {
     	$logo = file_get_contents( PETS_PATH . '/assets/images/logo.svg');

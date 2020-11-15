@@ -46,7 +46,12 @@ class Search {
 			return;
 		}
 
+		self::add_pets_per_page_to_query( $query );
+	}
+
+	public static function add_pets_per_page_to_query( $query ) {
 		$per_page = pets_get_setting( 'pets_per_page', 'general', 6 );
+		$per_page = 2;
 		$query->set( 'posts_per_page', $per_page );
 	}
 
@@ -68,6 +73,10 @@ class Search {
 			return;
 		}
 
+		self::add_search_fields_to_query( $query );
+	}
+
+	public static function add_search_fields_to_query( $query ) {
 		$pets_search = isset( $_GET['pets_search'] ) ? $_GET['pets_search'] : false;
 
 		if ( $pets_search ) {

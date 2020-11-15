@@ -21,3 +21,10 @@ function pets_upgrade_030() {
 function pets_upgrade_050() {
 	\Pets\DB\Fields::install();
 }
+
+/**
+ * Upgrading the field table.
+ */
+function pets_upgrade_130() {
+	\Pets\DB\Fields::install();
+}

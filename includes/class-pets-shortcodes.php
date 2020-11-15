@@ -34,6 +34,7 @@ class Shortcodes {
 		return apply_filters( 'pets_shortcodes', array(
 			'single' => array( $this, 'single_pet' ),
 			'petfinder' => array( $this, 'petfinder' ),
+			'archive' => array( $this, 'pets' ),
 		));
 	}
 
@@ -70,6 +71,26 @@ class Shortcodes {
 		ob_start();
 
 		include pets_get_template_part( 'shortcode/petfinder', null, false );
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Showing a single pet
+	 */
+	public function pets( $args ) {
+
+		$atts = shortcode_atts(
+			array(
+				'limit'              => 20,
+			),
+			$args,
+			'pets_petfinder'
+		);
+
+		ob_start();
+
+		include pets_get_template_part( 'shortcode/pets', null, false );
 
 		return ob_get_clean();
 	}

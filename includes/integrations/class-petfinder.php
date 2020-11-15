@@ -5,6 +5,8 @@
 
 namespace Pets\Integrations;
 
+use Pets\Pets_Cache;
+
 class PetFinder {
 
 	/**
@@ -61,21 +63,49 @@ class PetFinder {
 	 * @param $path
 	 * @param $params
 	 */
-	public static function get( $path, $params ) {
+	public static function get( $path, $params = array() ) {
 		$token = self::get_bearer_token();
 
 		if ( ! $token ) {
 			return false;
 		}
 
-
 		$headers = array(
 			'Authorization' => 'Bearer ' . $token['access_token'],
 		);
 
-		$result = wp_remote_get( self::$url . $path, array(
-			'headers' => $headers,
-			'body'    => $params
+		$allowed_params = array(
+			'type',
+			'breed',
+			'size',
+			'gender',
+			'age',
+			'color',
+			'coat',
+			'status',
+			'name',
+			'organization',
+			'good_with_children',
+			'good_with_dogs',
+			'good_with_cats',
+			'location',
+			'distance',
+			'before',
+			'after',
+			'sort',
+			'limit',
+			'page'
+		);
+
+		foreach ( $params as $param => $value ) {
+			if ( ! in_array( $param, $allowed_params, true ) ) {
+				unset( $params[ $param ] );
+			}
+		}
+
+		$url = add_query_arg($params,self::$url . $path );
+		$result = wp_remote_get( $url, array(
+			'headers' => $headers
 		));
 
 		if ( 200 !== wp_remote_retrieve_response_code( $result ) ) {
@@ -83,6 +113,22 @@ class PetFinder {
 		}
 
 		return json_decode( wp_remote_retrieve_body( $result ), true );
+	}
+
+	/**
+	 * @return bool|mixed|\WP_Error
+	 */
+	public static function get_types() {
+		$types = Pets_Cache::get_cache('types' );
+		if ( false === $types ) {
+			$types = self::get( 'types' );
+			if ( is_wp_error( $types ) ) {
+				return $types;
+			}
+			Pets_Cache::set_cache( 'types', $types, DAY_IN_SECONDS );
+		}
+
+		return $types;
 	}
 
 

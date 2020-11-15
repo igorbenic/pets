@@ -130,6 +130,10 @@ class Missing {
 			}
 		}
 
+		if ( isset( $_POST['missing_pets_fields'] ) ) {
+			Fields::save_fields($pet_id, $_POST );
+		}
+
 		do_action( 'pets_missing_pet_added', $pet_id, $_POST );
 	}
 }

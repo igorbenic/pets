@@ -38,6 +38,7 @@ class Fields_Table extends \WP_List_Table {
 		    'meta'          => __( 'Meta', 'pets' ),
 		    'field_section' => __( 'Section', 'pets' ),
 		    'searchable'    => __( 'Searchable', 'pets' ),
+	        'forms'         => __( 'In Forms', 'pets' ),
 	    );
 
       return $columns;
@@ -59,6 +60,15 @@ class Fields_Table extends \WP_List_Table {
 	 */
 	function column_searchable( $item ) {
 		return absint( $item[ 'searchable' ] ) === 1 ? __( 'Yes', 'pets' ) : __( 'No', 'pets' );
+	}
+
+	/**
+	 * Get values
+	 * @param object $item
+	 * @param string $column
+	 */
+	function column_forms( $item ) {
+		return absint( $item[ 'forms' ] ) === 1 ? __( 'Yes', 'pets' ) : __( 'No', 'pets' );
 	}
 
 	/**

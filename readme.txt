@@ -2,8 +2,8 @@
 Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
-Tested up to: 5.5.0
-Stable tag: 1.2.1
+Tested up to: 5.5.3
+Stable tag: 1.3.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -77,6 +77,13 @@ For example, for attribute status, create a field:
 - options: Adoptable, Found, Adopted
 
 == Changelog ==
+
+= 1.3.0 - 2020-11-xx =
+* New: Custom Fields can be added to Widgets - Add Pet and Add Missing Pet. You need to check them to be there.
+* New: [pets_archive] shortcode to display the archive anywhere.
+* Fix: Search form not displayed if there are no search parameters found.
+* Fix: Petfinder API fixed to perform queries only on known parameters.
+* Update: Freemius service updated.
 
 = 1.2.1 - 2020-08-26 =
 * Fix: Petfinder search form fixed and FAQ added
