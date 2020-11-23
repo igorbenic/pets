@@ -78,7 +78,13 @@ For example, for attribute status, create a field:
 
 == Changelog ==
 
-= 1.3.0 - 2020-11-xx =
+= 1.3.2 - 2020-11-23 =
+* Fix: Per Page setting was not used. Was showing only 2 per page.
+
+= 1.3.1 - 2020-11-17 =
+* Refactor: Wrapping the software license code in case it exists already.
+
+= 1.3.0 - 2020-11-15 =
 * New: Custom Fields can be added to Widgets - Add Pet and Add Missing Pet. You need to check them to be there.
 * New: [pets_archive] shortcode to display the archive anywhere.
 * Fix: Search form not displayed if there are no search parameters found.
