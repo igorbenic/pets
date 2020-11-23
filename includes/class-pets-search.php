@@ -51,7 +51,6 @@ class Search {
 
 	public static function add_pets_per_page_to_query( $query ) {
 		$per_page = pets_get_setting( 'pets_per_page', 'general', 6 );
-		$per_page = 2;
 		$query->set( 'posts_per_page', $per_page );
 	}
 

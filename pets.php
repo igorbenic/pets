@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         1.2.1
+ * Version:         1.3.2
  *
  * @package         Pets
  */
@@ -17,46 +17,47 @@ if( ! defined( 'ABSPATH' ) ) {
     return;
 }
 
+if ( ! function_exists( 'pet_fs' ) ) {
 // Create a helper function for easy SDK access.
-function pet_fs() {
-	global $pet_fs;
+	function pet_fs() {
+		global $pet_fs;
 
-	if ( ! isset( $pet_fs ) ) {
-		// Include Freemius SDK.
-		require_once dirname(__FILE__) . '/freemius/start.php';
+		if ( ! isset( $pet_fs ) ) {
+			// Include Freemius SDK.
+			require_once dirname( __FILE__ ) . '/freemius/start.php';
 
-		$pet_fs = fs_dynamic_init( array(
-			'id'                  => '2120',
-			'slug'                => 'pets',
-			'type'                => 'plugin',
-			'public_key'          => 'pk_d54c88070fcd447603456014d42ba',
-			'is_premium'          => true,
-			'has_addons'          => false,
-			'has_paid_plans'      => true,
-			'menu'                => array(
-				'slug'           => 'edit.php?post_type=pets',
-				'contact'        => false,
-				'support'        => false,
-			),
-		) );
+			$pet_fs = fs_dynamic_init( array(
+				'id'             => '2120',
+				'slug'           => 'pets',
+				'type'           => 'plugin',
+				'public_key'     => 'pk_d54c88070fcd447603456014d42ba',
+				'is_premium'     => true,
+				'has_addons'     => false,
+				'has_paid_plans' => true,
+				'menu'           => array(
+					'slug'    => 'edit.php?post_type=pets',
+					'contact' => false,
+					'support' => false,
+				),
+			) );
+		}
+
+
+		return $pet_fs;
 	}
 
-
-	return $pet_fs;
-}
-
 // Init Freemius.
-pet_fs();
+	pet_fs();
 // Signal that SDK was initiated.
-do_action( 'pet_fs_loaded' );
-
+	do_action( 'pet_fs_loaded' );
+}
 final class Pets {
 
     /**
      * Version
      * @var string
      */
-    public $version = '1.3.0';
+    public $version = '1.3.2';
 
     /**
      * Run everything
