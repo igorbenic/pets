@@ -41,6 +41,8 @@ Shortcodes:
 Example:
 
 [pets_archive filter=adoptable filter_value=0] -> Will show every pet that is not adoptable, filter 'adoptable' is the field slug.
+[pets_archive filter=adoptable,height filter_value=1,20] -> Will show every pet that is adoptable, with height of 20 (field slugs are adoptable and height)
+[pets_archive orderby=rand hide_nav=1 limit=10] -> Show 10 random pets without navigation
 
 Roadmap (planned features):
 
@@ -62,7 +64,6 @@ You're welcome to give your own ideas and features in the support forum.
 2. You can also install it by uploading the Pets zipped folder in wp-content/plugins/
 3. Activate it.
 
-
 == Frequently Asked Questions ==
 
 = My Give Form does not include pets. What to do? =
@@ -83,7 +84,9 @@ For example, for attribute status, create a field:
 == Changelog ==
 
 = 1.4.0 - 2021-04-04 =
-* New
+* New attributes in pets_archive shortcode, filter, filter_value, orderby and hide_nav (please check in the description how to use them)
+* New Settings: Search Filter. You can set fields that are not searchable to be applied to the global search.
+* Freemius update
 
 = 1.3.2 - 2020-11-23 =
 * Fix: Per Page setting was not used. Was showing only 2 per page.
