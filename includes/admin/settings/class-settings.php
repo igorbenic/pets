@@ -6,6 +6,8 @@
 
 namespace Pets\Admin;
 
+use Pets\Fields;
+
 class Settings {
 
     /**
@@ -160,9 +162,9 @@ class Settings {
 		    case 'description':
 			    $html  = '<tr class="pets-field">';
 			    $html .= '<td colspan="2">';
-			    $html .= '<p class="description"">';
+			    $html .= '<p class="description""><strong>';
 			    $html .= $args['title'];
-			    $html .= '</p>';
+			    $html .= '</strong></p>';
 			    $html .= '</td>';;
 			    $html .= '</tr>';
 			    echo $html;
@@ -259,6 +261,90 @@ class Settings {
 			    $html .= '</tr>';
 			    echo $html;
 			    break;
+			case 'fields_filter':
+				$fields = Fields::get_cached_fields();
+				$name   = $this->get_field_name( $field, $tab );
+
+				$html  = '<tr class="pets-field">';
+				$html .= '<th>';
+				$html .= '<label for="' . $args['id'] . '">';
+				$html .= $args['title'];
+				$html .= '</label>';
+				$html .= '</th>';
+				$html .= '<td>';
+				$html .= '<table class="form-table">';
+				foreach ( $fields as $field_index => $pets_field ) {
+					if ( isset( $pets_field['searchable'] ) && $pets_field['searchable'] ) {
+						continue;
+					}
+
+					$pets_field['name'] = $name . '[' . $pets_field['slug'] . ']';
+					$pets_field['value'] = isset( $args['value'][ $pets_field['slug'] ] ) ? $args['value'][ $pets_field['slug'] ]: '';
+					if ( 'text' !== $pets_field['type'] && 'textarea' !== $pets_field['type'] ) {
+						$multiple =  isset( $pets_field['meta'] ) && isset( $pets_field['meta']['multiple_search'] ) && 'yes' === $pets_field['meta']['multiple_search'] ? true : false;
+						$options  = isset( $pets_field['meta'] ) && isset( $pets_field['meta']['options'] ) ? $pets_field['meta']['options'] : array( __( 'No', 'pets' ), __( 'Yes', 'pets' ), );
+
+						$html .= '<tr class="pets-field">';
+						$html .= '<th>';
+						$html .= '<label for="' . $pets_field['id'] . '">';
+						$html .= $pets_field['title'];
+						$html .= '</label>';
+						$html .= '</th>';
+						$html .= '<td>';
+						ob_start();
+						if ( $multiple ) {
+							foreach ( $options as $option ) {
+								$checked = false;
+								if ( is_array( $pets_field['value']  ) ) {
+									$checked = in_array( $option, $pets_field['value'] , true );
+								}
+
+								?>
+								<br/>
+								<label for="<?php echo esc_attr( $pets_field['name'] ); ?>_<?php echo sanitize_title( $option ); ?>">
+									<input type="checkbox" name="<?php echo esc_attr( $pets_field['name'] ); ?>[]" <?php checked( $checked, true, true ); ?> id="<?php echo esc_attr( $pets_field['name'] ); ?>_<?php echo sanitize_title( $option ); ?>" value="<?php echo esc_attr( $option ); ?>" />
+									<?php echo esc_html( $option ); ?>
+								</label>
+								<?php
+
+							}
+
+
+						} else {
+							?>
+							<select id="<?php echo esc_attr( $pets_field['name'] ); ?>" name="<?php echo esc_attr( $pets_field['name'] ); ?>">
+								<option value="all"><?php esc_html_e( 'All', 'pets' ); ?></option>
+								<?php
+								if ( $options ) {
+									foreach ( $options as $key => $option ) {
+										$value = 'checkbox' === $pets_field['type'] ? $key : $option;
+										?>
+										<option <?php selected( $pets_field['value'], $value, true ); ?>
+											value="<?php echo esc_attr( $value ); ?>"><?php echo $option; ?></option>
+										<?php
+									}
+								}
+								?>
+							</select>
+							<?php
+						}
+						$html .= ob_get_clean();
+						$html .= '</td>';
+						$html .= '</tr>';
+					} else {
+						ob_start();
+						Fields::render_field( $pets_field, 0 );
+						$html .= ob_get_clean();
+					}
+				}
+				$html .= '</table>';
+				if ( $args['desc'] ) {
+					$html .= '<p class="description">' . $args['desc'] . '</p>';
+				}
+				$html .= '</td>';
+				$html .= '</tr>';
+				echo $html;
+				break;
 		    default:
 		    	do_action( 'pets_settings_field_' . $field['type'], $field, $tab, $this );
 		    	break;
@@ -326,6 +412,15 @@ class Settings {
 						'draft'   => __( 'Draft', 'pets' ),
 					),
 					'default' => 'draft'
+				),
+				'search_filter' => array(
+					'title' => __( 'Global Search', 'pets' ),
+					'type'  => 'description',
+				),
+				'fields_filter' => array(
+					'title' => __( 'Search Filter', 'pets' ),
+					'desc'  => __( 'Which Fields and which values should be included in search. This is not applied to [pets_archive]. Only on global search. Displayed fields here are not searchable.', 'pets' ),
+					'type'  => 'fields_filter',
 				),
 			),
             'sponsors' => array(

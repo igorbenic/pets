@@ -7,7 +7,7 @@
  * Author URI:      https://ibenic.com
  * Text Domain:     pets
  * Domain Path:     /languages
- * Version:         1.3.2
+ * Version:         1.4.0
  *
  * @package         Pets
  */
@@ -57,7 +57,7 @@ final class Pets {
      * Version
      * @var string
      */
-    public $version = '1.3.2';
+    public $version = '1.4.0';
 
     /**
      * Run everything
@@ -179,6 +179,7 @@ final class Pets {
         add_action( 'pets_before_loop', array( '\Pets\Search', 'add_form' ) );
 	    add_action( 'pre_get_posts', array( '\Pets\Search', 'pets_per_page' ) );
 	    add_action( 'pre_get_posts', array( '\Pets\Search', 'pets_search_fields' ) );
+	    add_action( 'pre_get_posts', array( '\Pets\Search', 'pets_search_filter_with_fields' ) );
 	    add_action( 'widgets_init', array( $widgets, 'register_widgets' ) );
 
 	    /**

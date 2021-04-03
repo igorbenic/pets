@@ -2,8 +2,8 @@
 Contributors: ibenic
 Tags: pets, animals, animal shelter
 Requires at least: 4.0
-Tested up to: 5.5.3
-Stable tag: 1.3.2
+Tested up to: 5.7.0
+Stable tag: 1.4.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -34,9 +34,13 @@ Shortcodes:
 
 [pets_single id=0 image=true info=true] (Set image or info to false)
 
-
 [pets_petfinder] - Show the Petfinder search from and animals. Check https://www.petfinder.com/developers/v2/docs/#get-animals for all attributes.
 
+[pets_archive] - Display anywhere. Attributes: limit - number of pets per page, filter - which fields to use to filter the pets, filter_value - which values should a filter have, hide_nav - if set to 1, it will hide navigation, orderby - if set, it will use that to order
+
+Example:
+
+[pets_archive filter=adoptable filter_value=0] -> Will show every pet that is not adoptable, filter 'adoptable' is the field slug.
 
 Roadmap (planned features):
 
@@ -77,6 +81,9 @@ For example, for attribute status, create a field:
 - options: Adoptable, Found, Adopted
 
 == Changelog ==
+
+= 1.4.0 - 2021-04-04 =
+* New
 
 = 1.3.2 - 2020-11-23 =
 * Fix: Per Page setting was not used. Was showing only 2 per page.

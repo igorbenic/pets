@@ -82,7 +82,11 @@ class Shortcodes {
 
 		$atts = shortcode_atts(
 			array(
-				'limit'              => 20,
+				'limit'        => 20,
+				'filter'       => '',
+				'filter_value' => '',
+				'orderby'      => '',
+				'hide_nav'     => ''
 			),
 			$args,
 			'pets_petfinder'

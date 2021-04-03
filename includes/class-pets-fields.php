@@ -190,6 +190,12 @@ class Fields {
 			$args['value'] = get_post_meta( $post_id, '_' . $args['slug'], true );
 		}
 
+		$name = 'pets_field_' . $args['slug'];
+
+		if ( isset( $args['name'] ) ) {
+			$name = $args['name'];
+		}
+
 		switch ( $args['type'] ) {
 			case 'text':
 				$html  = '<tr class="pets-field">';
@@ -199,7 +205,7 @@ class Fields {
 				$html .= '</label>';
 				$html .= '</th>';
 				$html .= '<td>';
-				$html .= '<input class="widefat" name="pets_field_' . $args['slug'] . '" id="pets-field-' . $args['slug'] . '" type="text" value="' . esc_attr( $args['value'] ) . '"/>';
+				$html .= '<input class="widefat" name="' . $name . '" id="pets-field-' . $args['slug'] . '" type="text" value="' . esc_attr( $args['value'] ) . '"/>';
 				$html .= '</td>';
 				$html .= '</tr>';
 				echo $html;
@@ -212,7 +218,7 @@ class Fields {
 				$html .= '</label>';
 				$html .= '</th>';
 				$html .= '<td>';
-				$html .= '<textarea class="widefat" name="pets_field_' . $args['slug'] . '" rows="5" id="pets-field-' . $args['slug'] . '">' . $args['value'] . '</textarea>';
+				$html .= '<textarea class="widefat" name="' . $name . '" rows="5" id="pets-field-' . $args['slug'] . '">' . $args['value'] . '</textarea>';
 				$html .= '</td>';
 				$html .= '</tr>';
 				echo $html;
@@ -225,7 +231,7 @@ class Fields {
 				$html .= '</label>';
 				$html .= '</th>';
 				$html .= '<td>';
-				$html .= '<select name="pets_field_' . $args['slug'] . '" class="widefat" id="pets-field-' . $args['slug'] . '">';
+				$html .= '<select name="' . $name . '" class="widefat" id="pets-field-' . $args['slug'] . '">';
 				$html .= '<option value="">' . __( 'Select an option', 'pets' ) . '</option>';
 				if ( isset( $args['meta']['options'] ) ) {
 					foreach ( $args['meta']['options'] as $index => $option ) {
@@ -248,7 +254,7 @@ class Fields {
 				if ( isset( $args['meta']['options'] ) ) {
 					foreach ( $args['meta']['options'] as $index => $option ) {
 						$html .= '<label>';
-						$html .= '<input name="pets_field_' . $args['slug'] . '" type="radio" value="' . esc_attr( $option ) . '" ' . checked( $option, $args['value'], false ) . '>' . $option;
+						$html .= '<input name="' . $name . '" type="radio" value="' . esc_attr( $option ) . '" ' . checked( $option, $args['value'], false ) . '>' . $option;
 						$html .= '<br/></label>';
 					}
 				}
@@ -265,9 +271,7 @@ class Fields {
 				$html .= '</th>';
 				$html .= '<td>';
 
-
-				$html .= '<input id="pets-field-' . $args['slug'] . '" name="pets_field_' . $args['slug'] . '" type="checkbox" value="1" ' . checked( '1', $args['value'], false ) . '>';
-
+				$html .= '<input id="pets-field-' . $args['slug'] . '" name="' . $name . '" type="checkbox" value="1" ' . checked( '1', $args['value'], false ) . '>';
 
 				$html .= '</td>';
 				$html .= '</tr>';

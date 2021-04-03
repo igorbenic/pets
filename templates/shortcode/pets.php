@@ -65,8 +65,32 @@ $pets_query->parse_query(array(
 	'paged' => $search_page
 ));
 
+if ( isset( $pets_search['orderby'] ) && $pets_search['orderby'] ) {
+	$pets_query->set( 'orderby', $pets_search['orderby'] );
+}
+
+$show_pagination = true;
+
+if ( isset( $pets_search['hide_nav'] ) && $pets_search['hide_nav'] ) {
+	$show_pagination = false;
+}
+
 \Pets\Search::add_pets_per_page_to_query($pets_query);
 \Pets\Search::add_search_fields_to_query($pets_query);
+
+if ( $pets_search['filter'] ) {
+	$filters       = explode( ',', $pets_search['filter'] );
+	$filter_values = ! empty( $pets_search['filter_value'] ) ? explode( ',', $pets_search['filter_value'] ) : array();
+	$filter_data   = array();
+
+	foreach ( $filters as $index => $field_filter ) {
+		$value = isset( $filter_values[ $index ] ) ? $filter_values[ $index ] : '';
+		$filter_data[ $field_filter ] = $value;
+	}
+
+	\Pets\Search::filter_fields_query( $filter_data, $pets_query );
+}
+
 $pets_query->get_posts();
 
 $total_pages  = $pets_query->max_num_pages;
@@ -88,7 +112,7 @@ $current_page = absint( $search_page );
 
 	do_action( 'pets_after_loop_while' );
 
-	if ( $total_pages > 1 ) {
+	if ( $total_pages > 1 && $show_pagination ) {
 		$query_args = $_GET;
 		if ( isset( $_GET['search-page'] ) ) {
 			unset( $_GET['search-page'] );
